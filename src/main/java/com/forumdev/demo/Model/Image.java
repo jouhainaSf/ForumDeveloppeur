@@ -1,9 +1,15 @@
 package com.forumdev.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Image")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Image
 {
     @Id
@@ -14,6 +20,7 @@ public class Image
     private String description;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_p")
+    @JsonView
     private Post post;
 
     public Image() {

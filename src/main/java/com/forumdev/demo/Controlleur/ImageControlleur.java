@@ -16,14 +16,14 @@ public class ImageControlleur
 
     @PostMapping(path = "/addImage" , produces = "application/json" , consumes = "application/json")
     @ResponseBody
-    public Image addImage(@RequestBody Image image)
+    public void addImage(@RequestBody Image image)
     {
         /*
         //related to the path method
         imageService.store(image);
         imageService.addImage(image1);
         */
-        return imageService.uploadImage(image);
+         imageService.uploadImage(image);
 
     }
 

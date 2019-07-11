@@ -76,7 +76,7 @@ public class ImageService
 
 //la methide base64
 
-    public  Image uploadImage(Image image) {
+    public  void uploadImage(Image image) {
     String base64Image = "";
     File file = new File(image.getPath());
     try (FileInputStream imageInFile = new FileInputStream(file)) {
@@ -90,7 +90,7 @@ public class ImageService
         System.out.println("Exception while reading the Image " + ioe);
     }
     image.setDescription(base64Image);
-    return imageRepository.save(image) ;
+     imageRepository.save(image) ;
 }
 
 public void afficherImage(Image image)

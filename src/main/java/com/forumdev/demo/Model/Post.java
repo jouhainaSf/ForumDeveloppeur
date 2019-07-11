@@ -1,7 +1,8 @@
 package com.forumdev.demo.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,13 +10,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "Post")
-@EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = "dateCreation" ,allowGetters = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post
 {
     @Id
@@ -31,30 +32,33 @@ public class Post
     private Integer rate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cat")
+    @JsonView
     private Categorie categorie;
     @OneToMany(
             mappedBy = "post",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
+    @JsonIgnore
     private List<Image> images;
     @OneToMany(
             mappedBy = "post",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
+    @JsonIgnore
     private List<Comment> comments;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_u")
+    @JsonView
     private User user;
 
-    @Column(name = "dateCreation" , nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)//datesysteme
-
+    @CreationTimestamp
     private Date dateCreation;
 
     public Post() {
+        likes=0;
+        dislikes=0;
+        rate=0;
 
     }
 

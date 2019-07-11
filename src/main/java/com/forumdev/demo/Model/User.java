@@ -1,10 +1,16 @@
 package com.forumdev.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "User")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class User
 {
     @Id
@@ -16,15 +22,15 @@ public class User
     private String pwd ;
     @OneToMany(
             mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
+    @JsonIgnore
     private List<Comment> comments;
     @OneToMany(
             mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            cascade = CascadeType.ALL
     )
+    @JsonIgnore
     private List<Post> posts;
 
     public User() {

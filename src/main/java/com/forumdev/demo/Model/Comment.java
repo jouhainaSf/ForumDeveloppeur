@@ -1,6 +1,8 @@
 package com.forumdev.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -10,7 +12,8 @@ import java.util.Date;
 @Entity
 @Table(name = "Comment")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"date"},allowGetters = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Comment
 {
     @Id
@@ -19,9 +22,11 @@ public class Comment
     private String contenue;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_p")
+    @JsonView
     private Post post;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_u")
+    @JsonView
     private User user;
     @CreatedDate
     @Column(name = "date",nullable = false,updatable = false)

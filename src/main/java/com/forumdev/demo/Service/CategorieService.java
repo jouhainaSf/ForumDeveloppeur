@@ -20,4 +20,10 @@ public class CategorieService
     {
         return categorieRepository.findById(id).get();
     }
+    public String  getCategoriesByName(String cat)
+    {
+        return categorieRepository.getCategoriesByCat(cat);
+
+    }
+
 }
