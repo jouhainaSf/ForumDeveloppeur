@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 public class PostControlleur
 {
     @Autowired
@@ -44,10 +46,10 @@ public class PostControlleur
 
     @PostMapping(path = "/PostByCategorie" , produces = "application/json" , consumes = "application/json")
     @ResponseBody
-    public Categorie  getPostByCategorie(@RequestBody Categorie categorie)
+    public List<Post> getPostByCategorie(@RequestBody Categorie categorie)
     {
 
-        return categorieService.FindOne(1);
+        return postService.findByCategorie(categorie);
     }
 
     @PostMapping(path = "/addLike",produces = "application/json", consumes = "application/json")

@@ -2,6 +2,7 @@ package com.forumdev.demo.Service;
 
 import com.forumdev.demo.Model.Categorie;
 import com.forumdev.demo.Repository.CategorieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Service
 public class CategorieService
 {
+    @Autowired
     private CategorieRepository  categorieRepository;
 
     public List<Categorie> getAll()

@@ -17,7 +17,7 @@ public class PostService
     @Autowired
     private CategorieRepository categorieRepository;
 
-    public Post findByCategorie(Categorie categorie)
+    public List<Post> findByCategorie(Categorie categorie)
     {
         /*List<Post> posts = postRepository.findAll();
         List<Post> postList = null;
@@ -30,7 +30,7 @@ public class PostService
             posts.remove(0);
 
         }*/
-        return postRepository.findByCategorie(categorie.getId_cat());
+        return postRepository.findByCategorie(categorie);
     }
 
     public Post getOne(Integer id)
