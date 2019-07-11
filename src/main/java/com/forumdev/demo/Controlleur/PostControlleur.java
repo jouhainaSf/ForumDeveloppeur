@@ -22,22 +22,21 @@ public class PostControlleur
     @Autowired
     private ImageService imageService;
 
+
     @PostMapping(path = "/Poster" ,produces = "application/json" )
     @ResponseBody
-    public Post Poster( Post post , @RequestParam("img") MultipartFile image)
+    public Post Poster( @RequestParam("post") Post post , @RequestParam("img")  Image image)
     {
+
         Post p=new Post();
         p.setCategorie(post.getCategorie());
         p.setDescription(post.getDescription());
         p.setUser(post.getUser());
         p.setTitle(post.getTitle());
-        imageService.store(image);
-        Image image1=new Image();
-        image1.setName(image.getOriginalFilename());
-        image1.setPath(image.getOriginalFilename());
-        image1.setPost(post);
+        image.setPost(p);
+        imageService.uploadImage(image);
         p =postService.addPost(post);
-        imageService.addImage(image1);
         return p;
     }
+
 }

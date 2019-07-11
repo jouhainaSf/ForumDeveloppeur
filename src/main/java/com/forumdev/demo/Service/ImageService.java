@@ -11,9 +11,8 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.*;
 import java.util.Base64;
-import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,9 +24,11 @@ public class ImageService
 {
     @Autowired
     private ImageRepository imageRepository;
+    private final Path rootLocation = Paths.get("src/test/resources");
 
 
-
+/*
+//cette methode ajoute une image au path indiquer dans le projet
     private final Path rootLocation = Paths.get("src/test/resources");
 
 
@@ -71,11 +72,39 @@ public class ImageService
             throw new RuntimeException("Could not initialize image!");
         }
     }
+*/
 
+//la methide base64
 
-public Image addImage(Image image)
+    public  Image uploadImage(Image image) {
+    String base64Image = "";
+    File file = new File(image.getPath());
+    try (FileInputStream imageInFile = new FileInputStream(file)) {
+        // Reading a Image file from file system
+        byte imageData[] = new byte[(int) file.length()];
+        imageInFile.read(imageData);
+        base64Image = Base64.getEncoder().encodeToString(imageData);
+    } catch (FileNotFoundException e) {
+        System.out.println("Image not found" + e);
+    } catch (IOException ioe) {
+        System.out.println("Exception while reading the Image " + ioe);
+    }
+    image.setDescription(base64Image);
+    return imageRepository.save(image) ;
+}
+
+public void afficherImage(Image image)
 {
-    return imageRepository.save(image);
+    try (FileOutputStream imageOutFile = new FileOutputStream(image.getPath())) {
+        // Converting a Base64 String into Image byte array
+        byte[] imageByteArray = Base64.getDecoder().decode(image.getDescription());
+        imageOutFile.write(imageByteArray);
+    } catch (FileNotFoundException e) {
+        System.out.println("Image not found" + e);
+    } catch (IOException ioe) {
+        System.out.println("Exception while reading the Image " + ioe);
+    }
+
 }
 
 

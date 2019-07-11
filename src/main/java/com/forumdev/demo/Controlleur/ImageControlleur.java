@@ -14,22 +14,29 @@ public class ImageControlleur
     @Autowired
     private ImageService imageService;
 
-    @PostMapping(path = "/addImage" , produces = "application/json")
+    @PostMapping(path = "/addImage" , produces = "application/json" , consumes = "application/json")
     @ResponseBody
-    public Resource addImage(@RequestParam("img")MultipartFile image)
+    public Image addImage(@RequestBody Image image)
     {
-
-        Image image1=new Image();
-        image1.setName(image.getName());
-        image1.setPath(image.getOriginalFilename());
+        /*
+        //related to the path method
         imageService.store(image);
         imageService.addImage(image1);
-        return imageService.loadFile(image1.getPath());
-
+        */
+        return imageService.uploadImage(image);
 
     }
 
 
+
+    @PostMapping(path = "/affImage" ,  consumes = "application/json")
+    @ResponseBody
+    public void affImage(@RequestBody Image image)
+    {
+        //je ne peux pas afficher une image par postman
+        imageService.afficherImage(image);
+
+    }
 
 
 }

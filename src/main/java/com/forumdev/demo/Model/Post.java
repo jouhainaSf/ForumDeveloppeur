@@ -2,6 +2,8 @@ package com.forumdev.demo.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -47,8 +49,9 @@ public class Post
     @JoinColumn(name = "id_u")
     private User user;
 
+    @Column(name = "dateCreation" , nullable = false)
     @Temporal(TemporalType.TIMESTAMP)//datesysteme
-    @CreatedDate
+
     private Date dateCreation;
 
     public Post() {
