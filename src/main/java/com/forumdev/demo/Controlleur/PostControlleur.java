@@ -1,6 +1,7 @@
 package com.forumdev.demo.Controlleur;
 
 
+import com.forumdev.demo.Controlleur.ControlleurInterface.PostControlleurInterface;
 import com.forumdev.demo.Model.Categorie;
 import com.forumdev.demo.Model.Image;
 import com.forumdev.demo.Model.Post;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class PostControlleur
+public class PostControlleur implements PostControlleurInterface
 {
     @Autowired
     private PostService postService;
@@ -22,10 +23,7 @@ public class PostControlleur
     @Autowired
     private ImageService imageService;
 
-    @Autowired
-    private CategorieService categorieService;
-
-
+    @Override
     @PostMapping(path = "/Poster" ,produces = "application/json")
     @ResponseBody
     public Post Poster(Post post , @RequestParam("img") String image)
@@ -44,6 +42,7 @@ public class PostControlleur
         return p;
     }
 
+    @Override
     @PostMapping(path = "/PostByCategorie" , produces = "application/json" , consumes = "application/json")
     @ResponseBody
     public List<Post> getPostByCategorie(@RequestBody Categorie categorie)
@@ -52,6 +51,7 @@ public class PostControlleur
         return postService.findByCategorie(categorie);
     }
 
+    /*
     @PostMapping(path = "/addLike",produces = "application/json", consumes = "application/json")
     @ResponseBody
     public Post addLike(@RequestBody Post P)
@@ -70,7 +70,8 @@ public class PostControlleur
         return postService.updateRate(pp);
     }
 
-
+*/
+    @Override
     @PutMapping (path = "/modifyPost", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public Post modifyPost(@RequestBody Post post)
@@ -80,6 +81,7 @@ public class PostControlleur
         return postService.updatePost(post1);
     }
 
+    @Override
     @DeleteMapping(path = "/DeletePost" , consumes = "application/json" )
     @ResponseBody
     public void deletePost(@RequestBody Post post)

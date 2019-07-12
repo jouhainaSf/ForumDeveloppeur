@@ -2,26 +2,30 @@ package com.forumdev.demo.Service;
 
 import com.forumdev.demo.Model.Comment;
 import com.forumdev.demo.Repository.CommentRepository;
+import com.forumdev.demo.Repository.DAO.DAOImp.CommentDAOImp;
+import com.forumdev.demo.Service.ServiceInterface.CommentServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CommentService
+public class CommentService implements CommentServiceInterface
 {
     @Autowired
-    private CommentRepository commentRepository;
+    private CommentDAOImp commentDAOImp;
 
-    public Comment  save(Comment s) {
-        return commentRepository.save(s);
+    @Override
+    public Comment  save(Comment s)
+    {
+        return commentDAOImp.save(s);
     }
-
+    @Override
     public Comment editComment(Comment comment)
     {
-        return commentRepository.saveAndFlush(comment);
+        return commentDAOImp.editComment(comment);
     }
-
+    @Override
     public void deleteComment(Comment comment)
     {
-        commentRepository.deleteById(comment.getId_com());
+        commentDAOImp.deleteComment(comment);
     }
 }

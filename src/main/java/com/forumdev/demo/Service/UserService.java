@@ -1,38 +1,43 @@
 package com.forumdev.demo.Service;
 
 import com.forumdev.demo.Model.User;
-import com.forumdev.demo.Repository.UserRepository;
+import com.forumdev.demo.Repository.DAO.DAOImp.UserDAOImp;
+import com.forumdev.demo.Service.ServiceInterface.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
-public class UserService
+public class UserService implements UserServiceInterface
 {
     @Autowired
-    private UserRepository userRepository;
+    private UserDAOImp userDAOImp;
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    @Override
+    public List<User> findAll()
+    {
+        return userDAOImp.findAll();
     }
-
-    public User getUserByEmailAndPwd( String email, String pwd) {
-        return userRepository.getUserByEmailAndPwd(email, pwd);
+    @Override
+    public User getUserByEmailAndPwd( String email, String pwd)
+    {
+        return userDAOImp.getUserByEmailAndPwd(email, pwd);
     }
+    @Override
     public User getByID(Integer id)
     {
-        return userRepository.findById(id).get();
+        return userDAOImp.findById(id).get();
     }
+    @Override
     public User save(User s) {
-        return userRepository.save(s);
+        return userDAOImp.save(s);
     }
-
+    @Override
     public User  saveAndFlush(User s) {
-        return userRepository.saveAndFlush(s);
+        return userDAOImp.saveAndFlush(s);
     }
-
+    @Override
     public void deleteById(Integer integer) {
-        userRepository.deleteById(integer);
+        userDAOImp.deleteById(integer);
     }
 }

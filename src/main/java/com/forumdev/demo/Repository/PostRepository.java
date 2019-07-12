@@ -7,10 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post,Integer>
 {
-    @Query("select p from Post p where p.categorie=:categorie")
-    List<Post> findByCategorie(@Param("categorie") Categorie categorie );
 
+    @Override
+    Optional<Post> findById(Integer integer);
+
+    @Override
+    Post saveAndFlush(Post s);
+
+    @Override
+    void delete(Post post);
 }

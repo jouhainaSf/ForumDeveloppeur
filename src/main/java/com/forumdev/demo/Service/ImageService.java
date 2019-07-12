@@ -1,7 +1,9 @@
 package com.forumdev.demo.Service;
 
 import com.forumdev.demo.Model.Image;
+import com.forumdev.demo.Repository.DAO.DAOImp.ImageDAOImp;
 import com.forumdev.demo.Repository.ImageRepository;
+import com.forumdev.demo.Service.ServiceInterface.ImageServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.Resource;
@@ -20,11 +22,25 @@ import java.nio.file.Paths;
 import static org.junit.Assert.*;
 
 @Service
-public class ImageService
+public class ImageService implements ImageServiceInterface
 {
+
+    //la methide base64
+
     @Autowired
-    private ImageRepository imageRepository;
-    private final Path rootLocation = Paths.get("src/test/resources");
+    private ImageDAOImp imageDAOImp;
+
+    @Override
+    public  void uploadImage(Image image)
+    {
+        imageDAOImp.uploadImage(image);
+    }
+    @Override
+    public void afficherImage(Image image)
+    {
+        imageDAOImp.afficherImage(image);
+
+    }
 
 
 /*
@@ -74,38 +90,7 @@ public class ImageService
     }
 */
 
-//la methide base64
 
-    public  void uploadImage(Image image) {
-    String base64Image = "";
-    File file = new File(image.getPath());
-    try (FileInputStream imageInFile = new FileInputStream(file)) {
-        // Reading a Image file from file system
-        byte imageData[] = new byte[(int) file.length()];
-        imageInFile.read(imageData);
-        base64Image = Base64.getEncoder().encodeToString(imageData);
-    } catch (FileNotFoundException e) {
-        System.out.println("Image not found" + e);
-    } catch (IOException ioe) {
-        System.out.println("Exception while reading the Image " + ioe);
-    }
-    image.setDescription(base64Image);
-     imageRepository.save(image) ;
-}
-
-public void afficherImage(Image image)
-{
-    try (FileOutputStream imageOutFile = new FileOutputStream(image.getPath())) {
-        // Converting a Base64 String into Image byte array
-        byte[] imageByteArray = Base64.getDecoder().decode(image.getDescription());
-        imageOutFile.write(imageByteArray);
-    } catch (FileNotFoundException e) {
-        System.out.println("Image not found" + e);
-    } catch (IOException ioe) {
-        System.out.println("Exception while reading the Image " + ioe);
-    }
-
-}
 
 
 }
