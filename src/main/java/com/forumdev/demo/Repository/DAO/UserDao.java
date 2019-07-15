@@ -1,11 +1,19 @@
 package com.forumdev.demo.Repository.DAO;
 
 import com.forumdev.demo.Model.User;
+import com.forumdev.demo.Repository.UserRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface UserDao
-{
-    @Query("select u from User u where u.email=:email and u.pwd=:pwd")
-    User getUserByEmailAndPwd(@Param("email") String email, @Param("pwd") String pwd);
+import java.util.List;
+import java.util.Optional;
+
+public interface UserDao   {
+
+    List<User> findAll();
+    User signIn(User user);
+    void desabonne(Integer integer);
+    User getUser(Integer integer);
+    User updateUser(User user);
+    User logIn(String email, String pwd);
 }

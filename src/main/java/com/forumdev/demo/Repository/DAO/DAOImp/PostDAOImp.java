@@ -20,26 +20,31 @@ public class PostDAOImp implements PostDAO {
     {
         return findByCategorie(categorie);
     }
-
-
+    
+    @Override
     public Post updatePost(Post post)
     {
+
         return postRepository.saveAndFlush(post);
     }
 
+    @Override
     public Post addPost(Post post)
     {
         return postRepository.save(post);
     }
 
+    @Override
     public void deletePost(Post post)
     {
         postRepository.delete(post);
     }
+    @Override
     public Post getOne(Integer id)
     {
         return postRepository.findById(id).get();
     }
+
 
 
 }

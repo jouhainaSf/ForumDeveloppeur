@@ -24,10 +24,10 @@ public class Post
     private Integer id_p;
     private String description ;
     private String title ;
-    @ColumnDefault("0")
-    private Integer likes;
-    @ColumnDefault("0")
-    private Integer dislikes;
+    @OneToOne(mappedBy = "post")
+    private Like likes;
+    @OneToOne(mappedBy = "post")
+    private Dislike dislikes;
     @ColumnDefault("0")
     private Integer rate;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -56,13 +56,13 @@ public class Post
     private Date dateCreation;
 
     public Post() {
-        likes=0;
-        dislikes=0;
+        likes=new Like();
+        dislikes=new Dislike();
         rate=0;
 
     }
 
-    public Post(String description, Integer likes, Integer dislikes, Integer rate, Categorie categorie, List<Image> images, List<Comment> comments, User user) {
+    public Post(String description, Like likes, Dislike dislikes, Integer rate, Categorie categorie, List<Image> images, List<Comment> comments, User user) {
         this.description = description;
         this.likes = likes;
         this.dislikes = dislikes;
@@ -85,19 +85,19 @@ public class Post
         this.description = description;
     }
 
-    public Integer getLikes() {
+    public Like getLikes() {
         return likes;
     }
 
-    public void setLikes(Integer likes) {
+    public void setLikes(Like likes) {
         this.likes = likes;
     }
 
-    public Integer getDislikes() {
+    public Dislike getDislikes() {
         return dislikes;
     }
 
-    public void setDislikes(Integer dislikes) {
+    public void setDislikes(Dislike dislikes) {
         this.dislikes = dislikes;
     }
 

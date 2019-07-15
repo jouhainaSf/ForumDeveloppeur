@@ -6,6 +6,7 @@ import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Service.CommentService;
 import com.forumdev.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -21,9 +22,11 @@ public class UserControlleur implements UserControlleurInterface
     @Override
     @PostMapping(path = "/login",  consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public User logIn( @RequestBody User user)
+    public User logIn(@RequestBody User user)
     {
-        return  userService.getUserByEmailAndPwd(user.getEmail(), user.getPwd());
+
+        return userService.getUserByEmailPwd(user);
+
     }
 
     @Override
@@ -35,7 +38,7 @@ public class UserControlleur implements UserControlleurInterface
 
     @Override
     @PostMapping(path = "/SignIn" , consumes = "application/json", produces = "application/json")
-    public User addUser( @RequestBody User user)
+    public ResponseEntity<User> addUser( @RequestBody User user)
     {
         return userService.save(user);
     }
@@ -48,12 +51,12 @@ public class UserControlleur implements UserControlleurInterface
     }
 
     @Override
-    @DeleteMapping("/Delete")
-    public void deleteUser(Integer id)
+    @DeleteMapping(path = "/Delete" , consumes = "application/json",produces = "application/json")
+    @ResponseBody
+    public void deleteUser(@RequestBody  User user)
     {
-        userService.deleteById(id);
+        userService.deleteById(user.getId_u());
     }
-
     @Override
     @PostMapping(path = "/comment", consumes = "application/json", produces = "application/json")
     public void Comment(@RequestBody  Comment comment )

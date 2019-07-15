@@ -9,6 +9,9 @@ import java.util.List;
 
 public interface PostDAO
 {
-    @Query("select p from Post p where p.categorie=:categorie")
-    List<Post> findByCategorie(@Param("categorie") Categorie categorie );
+    List<Post> findByCategorie(Categorie categorie);
+    Post updatePost(Post post);
+    Post addPost(Post post);
+    void deletePost(Post post);
+    Post getOne(Integer id);
 }

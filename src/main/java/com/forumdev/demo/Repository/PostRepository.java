@@ -20,4 +20,7 @@ public interface PostRepository extends JpaRepository<Post,Integer>
 
     @Override
     void delete(Post post);
+
+    @Query("select p from Post p where p.categorie=:categorie")
+    List<Post> findByCategorie(@Param("categorie") Categorie categorie );
 }
