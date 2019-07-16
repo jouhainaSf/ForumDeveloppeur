@@ -16,12 +16,13 @@ public class CommentService implements CommentServiceInterface
     @Override
     public Comment  save(Comment s)
     {
-        return commentDAOImp.save(s);
+
+        return commentDAOImp.save(s).getBody();
     }
     @Override
     public Comment editComment(Comment comment)
     {
-        return commentDAOImp.editComment(comment);
+        return commentDAOImp.editComment(comment).getBody();
     }
     @Override
     public void deleteComment(Comment comment)

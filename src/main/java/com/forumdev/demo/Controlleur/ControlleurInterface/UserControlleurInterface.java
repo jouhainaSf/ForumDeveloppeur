@@ -11,9 +11,9 @@ public interface UserControlleurInterface
 {
     User logIn(User user);
     List<User> allUsers();
-    ResponseEntity<User> addUser( User user);
+    User addUser( User user);
     User updateUser(User user);
-    void deleteUser(User user);
+    String deleteUser(User user);
     void Comment(Comment comment);
 
 }

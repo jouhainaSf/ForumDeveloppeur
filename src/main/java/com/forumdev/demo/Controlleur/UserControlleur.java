@@ -38,7 +38,7 @@ public class UserControlleur implements UserControlleurInterface
 
     @Override
     @PostMapping(path = "/SignIn" , consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> addUser( @RequestBody User user)
+    public User addUser( @RequestBody User user)
     {
         return userService.save(user);
     }
@@ -53,9 +53,9 @@ public class UserControlleur implements UserControlleurInterface
     @Override
     @DeleteMapping(path = "/Delete" , consumes = "application/json",produces = "application/json")
     @ResponseBody
-    public void deleteUser(@RequestBody  User user)
+    public String deleteUser(@RequestBody  User user)
     {
-        userService.deleteById(user.getId_u());
+        return userService.deleteById(user.getId_u());
     }
     @Override
     @PostMapping(path = "/comment", consumes = "application/json", produces = "application/json")

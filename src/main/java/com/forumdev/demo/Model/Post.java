@@ -24,9 +24,9 @@ public class Post
     private Integer id_p;
     private String description ;
     private String title ;
-    @OneToOne(mappedBy = "post")
+    @OneToOne(mappedBy = "post" )
     private Like likes;
-    @OneToOne(mappedBy = "post")
+    @OneToOne(mappedBy = "post" )
     private Dislike dislikes;
     @ColumnDefault("0")
     private Integer rate;
@@ -44,21 +44,18 @@ public class Post
             mappedBy = "post",
             cascade = CascadeType.ALL
     )
-    @JsonIgnore
+
     private List<Comment> comments;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name = "id_u")
-    @JsonView
+    @JsonIgnore
     private User user;
 
     @CreationTimestamp
     private Date dateCreation;
 
     public Post() {
-        likes=new Like();
-        dislikes=new Dislike();
-        rate=0;
 
     }
 

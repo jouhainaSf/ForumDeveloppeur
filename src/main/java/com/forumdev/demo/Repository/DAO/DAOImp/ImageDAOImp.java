@@ -33,6 +33,7 @@ public class ImageDAOImp implements ImageDAO
         image.setDescription(base64Image);
         imageRepository.save(image) ;
     }
+
     @Override
     public void afficherImage(Image image)
     {

@@ -26,20 +26,10 @@ public class PostControlleur implements PostControlleurInterface
     @Override
     @PostMapping(path = "/Poster" ,produces = "application/json")
     @ResponseBody
-    public Post Poster(Post post , @RequestParam("img") String image)
+    public Post Poster(@RequestBody  Post post )
     {
 
-        Image image1=new Image();
-        image1.setPath(image);
-        Post p=new Post();
-        p.setCategorie(post.getCategorie());
-        p.setDescription(post.getDescription());
-        p.setUser(post.getUser());
-        p.setTitle(post.getTitle());
-        p =postService.addPost(post);
-        image1.setPost(p);
-        imageService.uploadImage(image1);
-        return p;
+        return postService.addPost(post);
     }
 
     @Override
@@ -90,8 +80,12 @@ public class PostControlleur implements PostControlleurInterface
         postService.deletePost(post);
     }
 
-
-
+    @Override
+    @PostMapping(path = "/afficherPost" , consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public Post afficherPost(@RequestBody Post post) {
+        return postService.getOne(post.getId_p());
+    }
 
 
 }

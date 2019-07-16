@@ -16,7 +16,7 @@ public class UserService implements UserServiceInterface
 {
     Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
-    private UserDAOImp userDAOImp;
+    private UserDao userDAOImp;
 
 
     @Override
@@ -28,7 +28,7 @@ public class UserService implements UserServiceInterface
     public User getUserByEmailPwd(User user)
     {
 
-        return userDAOImp.logIn(user.getEmail(),user.getPwd());
+        return userDAOImp.logIn(user.getEmail(),user.getPwd()).getBody();
 
     }
     @Override
@@ -37,31 +37,16 @@ public class UserService implements UserServiceInterface
         return userDAOImp.getUser(id);
     }
     @Override
-    public ResponseEntity<User> save(User s)
+    public User save(User s)
     {
-
-        if (s.getPwd().length()<8 )
-        {
-            logger.error("Mot de passe invalid !");
-            return ResponseEntity.notFound().build();
-        }
-        else if (s.getPwd().indexOf(s.getFirstName())!=-1)
-        {
-            logger.error("Mot de passe ne peut pas contenir votre nom !");
-            return ResponseEntity.notFound().build();
-        }
-        else
-        {
-            return ResponseEntity.ok(userDAOImp.signIn(s));
-        }
-
+            return userDAOImp.signIn(s).getBody();
     }
     @Override
     public User  saveAndFlush(User s) {
-        return userDAOImp.updateUser(s);
+        return userDAOImp.updateUser(s).getBody();
     }
     @Override
-    public void deleteById(Integer integer) {
-        userDAOImp.desabonne(integer);
+    public String deleteById(Integer integer) {
+        return userDAOImp.desabonne(integer).getBody();
     }
 }

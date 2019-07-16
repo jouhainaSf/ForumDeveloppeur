@@ -1,12 +1,13 @@
 package com.forumdev.demo.Repository.DAO;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import com.forumdev.demo.Model.Categorie;
+
+import java.util.List;
 
 public interface CategorieDAO
 {
-    @Query("select c.cat from Categorie c where c.cat=:name")
-    String getCategoriesByCat(@Param("name") String cat);
-
+    List<Categorie> getAll();
+    Categorie FindOne(Integer id);
+    String getCategoriesByCat(String cat);
 
 }

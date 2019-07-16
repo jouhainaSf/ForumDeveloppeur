@@ -1,6 +1,7 @@
 package com.forumdev.demo.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,7 +23,7 @@ public class Comment
     private String contenue;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_p")
-    @JsonView
+    @JsonIgnore
     private Post post;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_u")

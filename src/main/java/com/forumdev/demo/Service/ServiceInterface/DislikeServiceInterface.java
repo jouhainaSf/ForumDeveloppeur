@@ -1,9 +1,10 @@
 package com.forumdev.demo.Service.ServiceInterface;
 
 import com.forumdev.demo.Model.Dislike;
+import com.forumdev.demo.Model.Post;
 
 public interface DislikeServiceInterface
 {
-    public Dislike getDislike(Integer integer);
-    public Dislike addDislike(Dislike dislike);
+     Dislike getDislike(Integer integer);
+    Dislike addDislike(Post post);
 }

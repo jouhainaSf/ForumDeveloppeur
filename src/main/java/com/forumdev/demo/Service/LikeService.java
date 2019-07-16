@@ -20,11 +20,12 @@ public class LikeService implements LikeServiceInterface
 
     @Override
     public Like addLike(Like like) {
-        return likeDAOImp.addLike(like);
+        return likeDAOImp.addLike(like.getPost());
     }
 
     @Override
-    public Like liker(Post post) {
+    public Like liker(Post post)
+    {
         return likeDAOImp.liker(post);
     }
 

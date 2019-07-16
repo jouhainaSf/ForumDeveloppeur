@@ -1,5 +1,6 @@
 package com.forumdev.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -10,11 +11,13 @@ public class Like
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Integer id_lik;
     @ColumnDefault(value = "0")
     private Integer likes;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post", referencedColumnName = "id_p")
+    @JsonIgnore
     private Post post;
 
     public Like() {
