@@ -11,7 +11,7 @@ import java.util.List;
 public interface PostDAO
 {
     List<Post> findByCategorie(Categorie categorie);
-    Post updatePost(Post post);
+    ResponseEntity<Post> updatePost(Post post);
     ResponseEntity<Post> addPost(Post post);
     void deletePost(Post post);
     Post getOne(Integer id);

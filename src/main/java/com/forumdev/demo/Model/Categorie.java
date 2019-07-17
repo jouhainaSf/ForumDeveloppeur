@@ -23,6 +23,7 @@ public class Categorie
     @JsonIgnore
     private List<Post> posts;
 
+
     public Categorie() {
     }
 

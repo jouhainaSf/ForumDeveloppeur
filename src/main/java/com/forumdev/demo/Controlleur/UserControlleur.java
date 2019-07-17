@@ -6,7 +6,6 @@ import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Service.CommentService;
 import com.forumdev.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -61,7 +60,6 @@ public class UserControlleur implements UserControlleurInterface
     @PostMapping(path = "/comment", consumes = "application/json", produces = "application/json")
     public void Comment(@RequestBody  Comment comment )
     {
-
         commentService.save(comment);
     }
 

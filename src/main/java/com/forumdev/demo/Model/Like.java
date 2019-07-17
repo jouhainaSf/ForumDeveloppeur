@@ -11,11 +11,11 @@ public class Like
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
+
     private Integer id_lik;
     @ColumnDefault(value = "0")
     private Integer likes;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "post", referencedColumnName = "id_p")
     @JsonIgnore
     private Post post;

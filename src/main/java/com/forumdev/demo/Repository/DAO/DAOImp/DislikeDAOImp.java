@@ -38,6 +38,6 @@ public class DislikeDAOImp  implements DislikeDAO
     @Override
     public Dislike findByPost(Post post)
     {
-       return dislikeRepository.fingByPost(post.getId_p());
+       return dislikeRepository.fingByPost(post);
     }
 }

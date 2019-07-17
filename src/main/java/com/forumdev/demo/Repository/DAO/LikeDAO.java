@@ -8,7 +8,7 @@ public interface LikeDAO
 {
     Like getLike(Integer integer);
     Like addLike(Post post);
-    Like findByPost(Integer integer);
+    Like findByPost(Post post);
     Like liker(Post post);
 
 

@@ -21,6 +21,10 @@ public class CommentDAOImp implements CommentDAO
     @Autowired
     private CommentRepository commentRepository;
 
+
+    @Autowired
+    private UserDAOImp userDAOImp;
+
     @Override
     public ResponseEntity<Comment> save(Comment s)
     {
@@ -82,7 +86,14 @@ public class CommentDAOImp implements CommentDAO
              return null;
         }
         else{
-            return ResponseEntity.ok(commentRepository.getCommentByPost(post));
+            Comment comment=new Comment();
+
+            for (int i=0; i<comments.size();i++)
+            {
+                comments.get(i).setUser(userDAOImp.afficherUser(comments.get(i).getUser()));
+
+            }
+            return ResponseEntity.ok(comments);
 
         }
     }

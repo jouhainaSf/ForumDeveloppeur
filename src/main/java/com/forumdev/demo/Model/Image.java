@@ -1,6 +1,7 @@
 package com.forumdev.demo.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -18,9 +19,9 @@ public class Image
     private String name;
     private String path;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_p")
-    @JsonView
+    @JsonIgnore
     private Post post;
 
     public Image() {

@@ -66,10 +66,7 @@ public class PostControlleur implements PostControlleurInterface
     @ResponseBody
     public Post modifyPost(@RequestBody Post post)
     {
-        Post post1=postService.getOne(post.getId_p());
-        post1.setLikes(post.getLikes());
-        post1.setDescription(post.getDescription());
-        return postService.updatePost(post1);
+        return postService.updatePost(post);
     }
 
     @Override

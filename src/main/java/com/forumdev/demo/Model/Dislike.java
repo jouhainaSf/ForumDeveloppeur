@@ -12,11 +12,10 @@ public class Dislike
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
     private Integer id_dis;
     @ColumnDefault(value = "0")
     private Integer dislikes;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "post", referencedColumnName = "id_p")
     @JsonIgnore
     private Post post;

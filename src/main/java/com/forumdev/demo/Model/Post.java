@@ -49,7 +49,6 @@ public class Post
 
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name = "id_u")
-    @JsonIgnore
     private User user;
 
     @CreationTimestamp

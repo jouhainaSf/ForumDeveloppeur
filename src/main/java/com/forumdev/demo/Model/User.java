@@ -26,10 +26,7 @@ public class User
     )
     @JsonIgnore
     private List<Comment> comments;
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL
-    )
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Post> posts;
 

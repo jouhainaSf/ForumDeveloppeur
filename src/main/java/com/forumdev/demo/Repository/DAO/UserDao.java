@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface UserDao
 {
+
     List<User> findAll();
     ResponseEntity<User> signIn(User user);
     ResponseEntity<String> desabonne(Integer integer);
@@ -19,4 +20,5 @@ public interface UserDao
     ResponseEntity<User> updateUser(User user);
     ResponseEntity<User> logIn(String email, String pwd);
     User dejaInscrit(String email);
+    User afficherUser(User user);
 }

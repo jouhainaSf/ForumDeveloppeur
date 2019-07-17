@@ -55,7 +55,7 @@ public class PostService implements PostServiceInterface
     @Override
     public Post updatePost(Post post)
     {
-        return postDAOImp.updatePost(post);
+        return postDAOImp.updatePost(post).getBody();
     }
     @Override
     public Post addPost(Post post)

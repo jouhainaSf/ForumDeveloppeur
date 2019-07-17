@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +24,19 @@ public  class UserDAOImp implements UserDao
     private UserRepository userRepository;
 
 
+
     @Override
     public List<User> findAll() {
-        return userRepository.findAll();
+
+
+        List<User> users= userRepository.findAll();
+        User user=new User();
+        for (int i=0; i<users.size();i++)
+        {
+            user=afficherUser(users.remove(i));
+           users.add(i,user); ;
+        }
+        return users;
     }
 
     @Override
@@ -191,13 +202,22 @@ public  class UserDAOImp implements UserDao
             return ResponseEntity.notFound().build();
         }else
         {
-            return ResponseEntity.ok(userRepository.getUserByEmailAndPwd(email,pwd));
+            return ResponseEntity.ok(afficherUser(userRepository.getUserByEmailAndPwd(email,pwd)));
         }
     }
 
     @Override
     public User dejaInscrit(String email) {
         return userRepository.getUserByEmail(email);
+    }
+
+    @Override
+    public User afficherUser(User user) {
+        User user1=new User();
+        user1.setFirstName(user.getFirstName());
+        user1.setLastName(user.getLastName());
+        user1.setEmail(user.getEmail());
+        return user1;
     }
 
     private boolean isPwdValid(String password)

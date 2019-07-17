@@ -27,15 +27,15 @@ public class LikeDAOImp implements LikeDAO
         return likesRepository.save(like);
     }
     @Override
-    public Like findByPost(Integer integer)
+    public Like findByPost(Post post)
     {
-        return likesRepository.fingByPost(integer);
+        return likesRepository.fingByPost(post);
     }
 
     @Override
     public Like liker(Post post) {
 
-        Like like=findByPost(post.getId_p());
+        Like like=likesRepository.fingByPost(post);
         like.setLikes(like.getLikes()+1);
         return likesRepository.saveAndFlush(like);
     }
