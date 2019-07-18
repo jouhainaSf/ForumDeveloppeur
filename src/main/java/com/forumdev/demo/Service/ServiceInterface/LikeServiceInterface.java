@@ -5,9 +5,9 @@ import com.forumdev.demo.Model.Post;
 
 public interface LikeServiceInterface
 {
-    public Like getLike(Integer integer);
-    public Like addLike(Like like);
-    public Like liker(Post post);
+     Like getLike(Integer integer);
+     Like addLike(Like like);
+     Integer liker(Like like);
 
 
 }

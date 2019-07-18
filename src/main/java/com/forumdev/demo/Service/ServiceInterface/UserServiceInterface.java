@@ -11,8 +11,8 @@ public interface UserServiceInterface
     List<User> findAll();
     String deleteById(Integer integer);
     User  saveAndFlush(User s);
-    User save(User s);
+    User SignUp(User s);
     User getByID(Integer id);
-    User getUserByEmailPwd(User user);
+    User SignIn(User user);
 
 }

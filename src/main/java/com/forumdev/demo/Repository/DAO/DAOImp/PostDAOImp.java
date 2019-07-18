@@ -41,12 +41,15 @@ public class PostDAOImp implements PostDAO
     }
 
     @Override
-    public ResponseEntity<Post> updatePost(Post post) {
-
-
+    public ResponseEntity<Post> updatePost(Post post)
+    {
         Post post1 = postRepository.getOne(post.getId_p());
-
-        if (post1.getTitle().equals(post.getTitle()) == false)
+        User user=userDAOImp.getUser(post1.getUser().getId_u());
+        if (user.getType().equals("owner")==false)
+        {
+            logger.error("vous n'avez pas le droit de changer le contenue de ce post !");
+            return ResponseEntity.notFound().build();
+        }else if (post1.getTitle().equals(post.getTitle()) == false)
         {
             logger.error("Vous ne pouvez pas changer le titre de votre post !");
             return ResponseEntity.notFound().build();
@@ -77,31 +80,23 @@ public class PostDAOImp implements PostDAO
                     imageDAOImp.uploadImage(post.getImages().get(i));
                 }
             }
-            if (post.getLikes()!=null)
-            {
-                    post.setLikes(likeDAOImp.liker(post1));
 
 
-            }else
-            {
-                post.setLikes(post1.getLikes());
-
-            }
-             if (post.getDislikes()!=null)
+             if(post.getDislikes().getDislikes()!=0 || post.getLikes().getLikes()!=0)
              {
-                     post.setDislikes(dislikeDAOImp.Disliker(post));
+                 Integer rate = post.getLikes().getLikes() * 100 / (post.getLikes().getLikes() + post.getDislikes().getDislikes());
+                 post.setRate(rate);
 
-             }else{
-                 post.setDislikes(post1.getDislikes());
+             }else
+             {
+                 post.setRate(post1.getRate());
              }
-
-                Integer rate = post.getLikes().getLikes() * 100 / (post.getLikes().getLikes() + post.getDislikes().getDislikes());
-                post.setRate(rate);
 
              post.setDateCreation(post1.getDateCreation());
              post.setTitle(post1.getTitle());
              post.setUser(post1.getUser());
              post.setCategorie(post1.getCategorie());
+             post.setUser(post1.getUser());
                 return ResponseEntity.ok(getOne(postRepository.saveAndFlush(post).getId_p()));
             }
 
@@ -126,16 +121,18 @@ public class PostDAOImp implements PostDAO
                 return ResponseEntity.notFound().build();
 
             } else {
-                Like like = likeDAOImp.addLike(post);
-                Dislike dislike = dislikeDAOImp.addDislike(post);
+                Categorie categorie = categorieDAOImp.FindOne(post.getCategorie().getId_cat());
+                post.setCategorie(categorie);
+                User user = userDAOImp.getUser(post.getUser().getId_u());
+                user.setType("owner");
+                user= userDAOImp.updateUser(user).getBody();
+                post.setUser(user);
+                Post post1=postRepository.save(post);
+                Like like = likeDAOImp.addLike(post1);
+                Dislike dislike = dislikeDAOImp.addDislike(post1);
                 post.setRate(0);
                 post.setLikes(like);
                 post.setDislikes(dislike);
-                User user = userDAOImp.getUser(post.getUser().getId_u());
-                post.setUser(user);
-                Categorie categorie = categorieDAOImp.FindOne(post.getCategorie().getId_cat());
-                post.setCategorie(categorie);
-
                 if (post.getImages().isEmpty() == false) {
                     for (int i = 0; i < post.getImages().size(); i++) {
                         post.getImages().get(i).setPost(post);
@@ -143,7 +140,7 @@ public class PostDAOImp implements PostDAO
                     }
 
                 }
-                return ResponseEntity.ok(postRepository.save(post));
+                return ResponseEntity.ok(postRepository.saveAndFlush(post));
             }
         }
 
@@ -162,6 +159,7 @@ public class PostDAOImp implements PostDAO
         user.setEmail(post.getUser().getEmail());
         user.setFirstName(post.getUser().getFirstName());
         user.setLastName(post.getUser().getLastName());
+        user.setType(post.getUser().getType());
         post.setUser(user);
         return post;
     }

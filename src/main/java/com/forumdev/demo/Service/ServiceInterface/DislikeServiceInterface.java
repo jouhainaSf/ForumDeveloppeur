@@ -7,4 +7,5 @@ public interface DislikeServiceInterface
 {
      Dislike getDislike(Integer integer);
     Dislike addDislike(Post post);
+    Integer Disliker(Dislike dislike);
 }

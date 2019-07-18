@@ -2,6 +2,7 @@ package com.forumdev.demo.Service;
 
 import com.forumdev.demo.Model.Image;
 import com.forumdev.demo.Repository.DAO.DAOImp.ImageDAOImp;
+import com.forumdev.demo.Repository.DAO.ImageDAO;
 import com.forumdev.demo.Repository.ImageRepository;
 import com.forumdev.demo.Service.ServiceInterface.ImageServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,17 @@ public class ImageService implements ImageServiceInterface
     //la methide base64
 
     @Autowired
-    private ImageDAOImp imageDAOImp;
+    private ImageDAO imageDAO;
 
     @Override
     public  void uploadImage(Image image)
     {
-        imageDAOImp.uploadImage(image);
+        imageDAO.uploadImage(image);
     }
     @Override
     public void afficherImage(Image image)
     {
-        imageDAOImp.afficherImage(image);
+        imageDAO.afficherImage(image);
 
     }
 

@@ -14,7 +14,7 @@ public interface UserDao
 {
 
     List<User> findAll();
-    ResponseEntity<User> signIn(User user);
+    ResponseEntity<User> signUp(User user);
     ResponseEntity<String> desabonne(Integer integer);
     User getUser(Integer integer);
     ResponseEntity<User> updateUser(User user);

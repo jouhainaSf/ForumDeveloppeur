@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "likes")
@@ -17,8 +18,15 @@ public class Like
     private Integer likes;
     @OneToOne
     @JoinColumn(name = "post", referencedColumnName = "id_p")
-    @JsonIgnore
+
     private Post post;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "Users_Likes",
+            joinColumns = { @JoinColumn(name = "id_lik") },
+            inverseJoinColumns = { @JoinColumn(name = "id_u") }
+    )
+    private List<User> users;
 
     public Like() {
         likes=0;
@@ -42,5 +50,13 @@ public class Like
 
     public Integer getId_l() {
         return id_lik;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

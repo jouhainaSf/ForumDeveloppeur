@@ -2,6 +2,7 @@ package com.forumdev.demo.Service;
 
 import com.forumdev.demo.Model.Categorie;
 import com.forumdev.demo.Repository.CategorieRepository;
+import com.forumdev.demo.Repository.DAO.CategorieDAO;
 import com.forumdev.demo.Repository.DAO.DAOImp.CategorieDAOImp;
 import com.forumdev.demo.Service.ServiceInterface.CategorieServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +15,20 @@ public class CategorieService implements CategorieServiceInterface
 {
 
     @Autowired
-    private CategorieDAOImp categorieDAOImp;
+    private CategorieDAO categorieDAO;
 
     @Override
     public List<Categorie> getAll() {
-        return categorieDAOImp.getAll();
+        return categorieDAO.getAll();
     }
 
     @Override
     public Categorie FindOne(Integer id) {
-        return categorieDAOImp.FindOne(id);
+        return categorieDAO.FindOne(id);
     }
 
     @Override
     public String getCategoriesByName(String cat) {
-        return categorieDAOImp.getCategoriesByCat(cat);
+        return categorieDAO.getCategoriesByCat(cat);
     }
 }

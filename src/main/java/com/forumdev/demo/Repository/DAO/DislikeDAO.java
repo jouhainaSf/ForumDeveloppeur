@@ -3,10 +3,11 @@ package com.forumdev.demo.Repository.DAO;
 import com.forumdev.demo.Model.Dislike;
 import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.Post;
+import org.springframework.http.ResponseEntity;
 
 public interface DislikeDAO
 {
-    Dislike Disliker(Post post);
+    ResponseEntity<Integer> Disliker (Dislike dislike);
     Dislike getDislike(Integer integer);
     Dislike findByPost(Post post);
     Dislike addDislike(Post post);

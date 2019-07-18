@@ -19,13 +19,11 @@ public class UserControlleur implements UserControlleurInterface
     private CommentService commentService;
 
     @Override
-    @PostMapping(path = "/login",  consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/SignIn",  consumes = "application/json", produces = "application/json")
     @ResponseBody
     public User logIn(@RequestBody User user)
     {
-
-        return userService.getUserByEmailPwd(user);
-
+        return userService.SignIn(user);
     }
 
     @Override
@@ -36,10 +34,10 @@ public class UserControlleur implements UserControlleurInterface
     }
 
     @Override
-    @PostMapping(path = "/SignIn" , consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/SignUp" , consumes = "application/json", produces = "application/json")
     public User addUser( @RequestBody User user)
     {
-        return userService.save(user);
+        return userService.SignUp(user);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.forumdev.demo.Repository.DAO.DAOImp;
 
-import com.forumdev.demo.Model.Post;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.DAO.UserDao;
 import com.forumdev.demo.Repository.UserRepository;
@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public  class UserDAOImp implements UserDao
     }
 
     @Override
-    public ResponseEntity<User> signIn(User user) {
+    public ResponseEntity<User> signUp(User user) {
 
         if(user.getFirstName()==null )
         {
@@ -100,6 +101,9 @@ public  class UserDAOImp implements UserDao
         }
         else
         {
+            String pwd = BCrypt.hashpw(user.getPwd(), BCrypt.gensalt(12));
+            user.setPwd(pwd);
+            user.setType("public");
             return ResponseEntity.ok(userRepository.save(user));
         }
     }
@@ -196,13 +200,17 @@ public  class UserDAOImp implements UserDao
         {
             logger.error("email incorrect !");
             return ResponseEntity.notFound().build();
-        }else if (userRepository.getUserByEmailAndPwd(email,pwd)==null)
+        }
+        else
         {
-            logger.error("mote de passe incorrecte !");
-            return ResponseEntity.notFound().build();
-        }else
-        {
-            return ResponseEntity.ok(afficherUser(userRepository.getUserByEmailAndPwd(email,pwd)));
+            String pwd1=userRepository.getUserByEmail(email).getPwd();
+            boolean matched = BCrypt.checkpw(pwd, pwd1);
+            if (matched==false)
+            {
+                logger.error("pwd incorrect !");
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(afficherUser(userRepository.getUserByEmailAndPwd(email,pwd1)));
         }
     }
 
@@ -217,6 +225,7 @@ public  class UserDAOImp implements UserDao
         user1.setFirstName(user.getFirstName());
         user1.setLastName(user.getLastName());
         user1.setEmail(user.getEmail());
+        user1.setType(user.getType());
         return user1;
     }
 

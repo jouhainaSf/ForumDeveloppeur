@@ -3,6 +3,7 @@ package com.forumdev.demo.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "User")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
 public class User
 {
     @Id
@@ -20,6 +20,12 @@ public class User
     private String LastName ;
     private String email ;
     private String pwd ;
+    private String type;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Like> likes;
+    @ManyToMany(mappedBy = "users")
+    private List<Dislike> dislikes;
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL
@@ -30,16 +36,19 @@ public class User
     @JsonIgnore
     private List<Post> posts;
 
+
+
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String pwd, List<Comment> comments, List<Post> posts) {
+    public User(String firstName, String lastName, String email, String pwd, List<Comment> comments, List<Post> posts, String type) {
         FirstName = firstName;
         LastName = lastName;
         this.email = email;
         this.pwd = pwd;
         this.comments = comments;
         this.posts = posts;
+        this.type = type;
     }
 
     public Integer getId_u() {
@@ -92,5 +101,29 @@ public class User
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
+
+    public List<Dislike> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(List<Dislike> dislikes) {
+        this.dislikes = dislikes;
     }
 }

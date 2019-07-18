@@ -38,7 +38,6 @@ public class Post
             mappedBy = "post",
             cascade = CascadeType.ALL
     )
-    @JsonIgnore
     private List<Image> images;
     @OneToMany(
             mappedBy = "post",

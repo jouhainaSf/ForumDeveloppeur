@@ -16,37 +16,37 @@ public class UserService implements UserServiceInterface
 {
     Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
-    private UserDao userDAOImp;
+    private UserDao userDAO;
 
 
     @Override
     public List<User> findAll()
     {
-        return userDAOImp.findAll();
+        return userDAO.findAll();
     }
     @Override
-    public User getUserByEmailPwd(User user)
+    public User SignIn(User user)
     {
 
-        return userDAOImp.logIn(user.getEmail(),user.getPwd()).getBody();
+        return userDAO.logIn(user.getEmail(),user.getPwd()).getBody();
 
     }
     @Override
     public User getByID(Integer id)
     {
-        return userDAOImp.getUser(id);
+        return userDAO.getUser(id);
     }
     @Override
-    public User save(User s)
+    public User SignUp(User s)
     {
-            return userDAOImp.signIn(s).getBody();
+            return userDAO.signUp(s).getBody();
     }
     @Override
     public User  saveAndFlush(User s) {
-        return userDAOImp.updateUser(s).getBody();
+        return userDAO.updateUser(s).getBody();
     }
     @Override
     public String deleteById(Integer integer) {
-        return userDAOImp.desabonne(integer).getBody();
+        return userDAO.desabonne(integer).getBody();
     }
 }

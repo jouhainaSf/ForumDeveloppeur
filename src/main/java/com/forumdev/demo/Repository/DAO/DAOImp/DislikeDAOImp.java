@@ -3,16 +3,29 @@ package com.forumdev.demo.Repository.DAO.DAOImp;
 import com.forumdev.demo.Model.Dislike;
 import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.Post;
+import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.DAO.DislikeDAO;
+import com.forumdev.demo.Repository.DAO.PostDAO;
 import com.forumdev.demo.Repository.DislikeRepository;
+import com.forumdev.demo.Repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class DislikeDAOImp  implements DislikeDAO
 {
+    private Logger logger= LoggerFactory.getLogger(DislikeDAOImp.class);
     @Autowired
     private DislikeRepository dislikeRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PostDAO postDAO;
 
     @Override
     public Dislike addDislike(Post post) {
@@ -28,11 +41,38 @@ public class DislikeDAOImp  implements DislikeDAO
         return dislikeRepository.findById(integer).get();
     }
     @Override
-    public Dislike Disliker(Post post)
-    {
-        Dislike dislike1 = findByPost(post);
-        dislike1.setDislikes(dislike1.getDislikes()+1);
-        return dislikeRepository.saveAndFlush(dislike1);
+    public ResponseEntity<Integer> Disliker (Dislike dislike) {
+        if (dislike.getPost().getId_p().equals(null)==true)
+        {
+            logger.error("Il faut indiquer le post !");
+            return ResponseEntity.notFound().build();
+        }else if (dislike.getUsers().isEmpty()==true)
+        {
+            logger.error("il faut indiquer l'utilsateur qui a disliké ce post");
+            return ResponseEntity.notFound().build();
+        }else
+        {
+            User user=userRepository.findById(dislike.getUsers().get(0).getId_u()).get();
+            Dislike dislike1=dislikeRepository.fingByPost(dislike.getPost());
+            List<User> users=dislike1.getUsers();
+            if (users.contains(user)==true)
+            {
+                logger.error("tu as déjà disliker ce post !");
+                return ResponseEntity.notFound().build();
+            }else if (user.equals(dislike1.getPost().getUser()))
+            {
+                logger.error("tu ne peux pas aimé ton propre post -_- !");
+                return ResponseEntity.notFound().build();
+            } else
+            {
+                users.add(user);
+                dislike1.setUsers(users);
+                user.getDislikes().add(dislike1);
+                dislike1.setDislikes(dislike1.getDislikes()+1);
+                //postDAO.updatePost(dislike1.getPost());
+                return ResponseEntity.ok(dislikeRepository.save(dislike1).getDislikes());
+            }
+        }
     }
 
     @Override
