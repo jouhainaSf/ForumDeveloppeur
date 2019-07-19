@@ -4,6 +4,7 @@ import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.Post;
 import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.DAO.LikeDAO;
+import com.forumdev.demo.Repository.DAO.PostDAO;
 import com.forumdev.demo.Repository.LikesRepository;
 import com.forumdev.demo.Repository.PostRepository;
 import com.forumdev.demo.Repository.UserRepository;
@@ -30,6 +31,8 @@ public class LikeDAOImp implements LikeDAO
     @Autowired
     private PostRepository postRepository;
 
+
+
     @Override
     public Like getLike(Integer integer)
     {
@@ -52,6 +55,7 @@ public class LikeDAOImp implements LikeDAO
 
     @Override
     public ResponseEntity<Integer> liker(Like like) {
+
         if (like.getPost().getId_p().equals(null)==true)
         {
             logger.error("Il faut indiquer le post !");
@@ -75,10 +79,16 @@ public class LikeDAOImp implements LikeDAO
                 return ResponseEntity.notFound().build();
             } else
             {
+                Post post=postRepository.findById(like.getPost().getId_p()).get();
                 users.add(user);
                 like1.setUsers(users);
                 user.getLikes().add(like1);
                 like1.setLikes(like1.getLikes()+1);
+                post.setLikes(like1);
+                Integer rate = post.getLikes().getLikes() * 100 / (post.getLikes().getLikes() + post.getDislikes().getDislikes());
+                post.setRate(rate);
+                like1.setPost(post);
+                postRepository.saveAndFlush(post);
                 return ResponseEntity.ok(likesRepository.save(like1).getLikes());
             }
         }

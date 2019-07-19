@@ -1,5 +1,8 @@
 package com.forumdev.demo.Repository;
 
+import com.forumdev.demo.Model.Dislike;
+import com.forumdev.demo.Model.Like;
+import com.forumdev.demo.Model.Post;
 import com.forumdev.demo.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,5 +27,15 @@ public interface UserRepository extends JpaRepository<User,Integer>
 
     @Query("select u from User u where u.pwd=:pwd ")
     User getUserByPwd(@Param("pwd") String pwd);
+
+    @Query("select u.likes from User u where u.id_u=:id_u ")
+    List<Like> getLikes(@Param("id_u") Integer id_u);
+    @Query("select u.dislikes from User u where u.id_u=:id_u ")
+    List<Dislike> getDislikes(@Param("id_u") Integer id_u);
+
+    @Query("select u.posts from User u where u.id_u=:id_u ")
+    List<Post> getPosts(@Param("id_u") Integer integer);
+
+
 
 }

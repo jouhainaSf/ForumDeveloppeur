@@ -1,6 +1,8 @@
 package com.forumdev.demo.Service.ServiceInterface;
 
 
+import com.forumdev.demo.Model.Dislike;
+import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.User;
 import org.springframework.http.ResponseEntity;
 
@@ -14,5 +16,7 @@ public interface UserServiceInterface
     User SignUp(User s);
     User getByID(Integer id);
     User SignIn(User user);
+    List<Like> historiqueLikes(User user);
+    List<Dislike> historiqueDislikes(User user);
 
 }

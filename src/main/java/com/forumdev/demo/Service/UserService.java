@@ -1,19 +1,24 @@
 package com.forumdev.demo.Service;
 
+import com.forumdev.demo.Model.Dislike;
+import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.DAO.DAOImp.UserDAOImp;
 import com.forumdev.demo.Repository.DAO.UserDao;
 import com.forumdev.demo.Service.ServiceInterface.UserServiceInterface;
+import com.sun.security.auth.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService implements UserServiceInterface
-{
+public class UserService implements UserServiceInterface {
     Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserDao userDAO;
@@ -31,6 +36,17 @@ public class UserService implements UserServiceInterface
         return userDAO.logIn(user.getEmail(),user.getPwd()).getBody();
 
     }
+
+    @Override
+    public List<Like> historiqueLikes(User user) {
+        return userDAO.historiqueLikes(user);
+    }
+
+    @Override
+    public List<Dislike> historiqueDislikes(User user) {
+        return userDAO.historiqueDislike(user);
+    }
+
     @Override
     public User getByID(Integer id)
     {
@@ -49,4 +65,5 @@ public class UserService implements UserServiceInterface
     public String deleteById(Integer integer) {
         return userDAO.desabonne(integer).getBody();
     }
+
 }

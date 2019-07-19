@@ -18,7 +18,6 @@ public class Like
     private Integer likes;
     @OneToOne
     @JoinColumn(name = "post", referencedColumnName = "id_p")
-
     private Post post;
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(

@@ -1,7 +1,7 @@
 package com.forumdev.demo.Repository.DAO.DAOImp;
 
 import com.forumdev.demo.Model.*;
-import com.forumdev.demo.Repository.DAO.PostDAO;
+import com.forumdev.demo.Repository.DAO.*;
 import com.forumdev.demo.Repository.PostRepository;
 import com.forumdev.demo.Service.PostService;
 import org.slf4j.LoggerFactory;
@@ -21,18 +21,18 @@ public class PostDAOImp implements PostDAO
     private PostRepository postRepository;
 
     @Autowired
-    private CommentDAOImp commentDAOImp;
+    private CommentDAO commentDAOImp;
 
     @Autowired
-    private LikeDAOImp likeDAOImp;
+    private LikeDAO likeDAOImp;
     @Autowired
-    private DislikeDAOImp dislikeDAOImp;
+    private DislikeDAO dislikeDAOImp;
     @Autowired
-    private ImageDAOImp imageDAOImp;
+    private ImageDAO imageDAOImp;
     @Autowired
-    private UserDAOImp userDAOImp;
+    private UserDao userDAOImp;
     @Autowired
-    private CategorieDAOImp categorieDAOImp;
+    private CategorieDAO categorieDAOImp;
 
     @Override
     public List<Post> findByCategorie(Categorie categorie)
@@ -147,7 +147,18 @@ public class PostDAOImp implements PostDAO
     @Override
     public void deletePost(Post post)
     {
-        postRepository.delete(post);
+        Post post1 = postRepository.getOne(post.getId_p());
+        User user=userDAOImp.getUser(post1.getUser().getId_u());
+
+        if (user.getType().equals("owner")==false)
+        {
+            logger.error("vous n'avez pas le droit de supprimer ce post !");
+            ResponseEntity.notFound().build();
+        }else
+        {
+            postRepository.delete(post);
+            logger.info("votre post a été bien supprimer");
+        }
     }
     @Override
     public Post getOne(Integer id)
@@ -164,6 +175,19 @@ public class PostDAOImp implements PostDAO
         return post;
     }
 
-
+    public Post afficherPost(Integer id)
+    {
+        Post post= postRepository.findById(id).get();
+        User user = new User();
+        user.setEmail(post.getUser().getEmail());
+        user.setFirstName(post.getUser().getFirstName());
+        user.setLastName(post.getUser().getLastName());
+        post.setUser(user);
+        post.setDislikes(null);
+        post.setComments(null);
+        post.setDescription(null);
+        post.setLikes(null);
+        return post;
+    }
 
 }

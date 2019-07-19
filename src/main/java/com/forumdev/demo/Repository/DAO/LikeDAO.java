@@ -4,8 +4,6 @@ import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.Post;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 public interface LikeDAO
 
 {

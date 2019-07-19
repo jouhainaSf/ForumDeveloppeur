@@ -7,6 +7,7 @@ import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.DAO.DislikeDAO;
 import com.forumdev.demo.Repository.DAO.PostDAO;
 import com.forumdev.demo.Repository.DislikeRepository;
+import com.forumdev.demo.Repository.PostRepository;
 import com.forumdev.demo.Repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class DislikeDAOImp  implements DislikeDAO
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private PostDAO postDAO;
+    private PostRepository postRepository;
 
     @Override
     public Dislike addDislike(Post post) {
@@ -54,6 +55,7 @@ public class DislikeDAOImp  implements DislikeDAO
         {
             User user=userRepository.findById(dislike.getUsers().get(0).getId_u()).get();
             Dislike dislike1=dislikeRepository.fingByPost(dislike.getPost());
+            Post post=postRepository.findById(dislike.getPost().getId_p()).get();
             List<User> users=dislike1.getUsers();
             if (users.contains(user)==true)
             {
@@ -69,7 +71,11 @@ public class DislikeDAOImp  implements DislikeDAO
                 dislike1.setUsers(users);
                 user.getDislikes().add(dislike1);
                 dislike1.setDislikes(dislike1.getDislikes()+1);
-                //postDAO.updatePost(dislike1.getPost());
+                post.setDislikes(dislike1);
+                Integer rate = post.getLikes().getLikes() * 100 / (post.getLikes().getLikes() + post.getDislikes().getDislikes());
+                post.setRate(rate);
+                dislike1.setPost(post);
+                postRepository.saveAndFlush(post);
                 return ResponseEntity.ok(dislikeRepository.save(dislike1).getDislikes());
             }
         }

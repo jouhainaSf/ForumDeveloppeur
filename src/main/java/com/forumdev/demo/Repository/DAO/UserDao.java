@@ -1,6 +1,8 @@
 package com.forumdev.demo.Repository.DAO;
 
 import com.forumdev.demo.Model.Comment;
+import com.forumdev.demo.Model.Dislike;
+import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.UserRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +23,6 @@ public interface UserDao
     ResponseEntity<User> logIn(String email, String pwd);
     User dejaInscrit(String email);
     User afficherUser(User user);
+    List<Like> historiqueLikes(User user);
+    List<Dislike> historiqueDislike(User user);
 }

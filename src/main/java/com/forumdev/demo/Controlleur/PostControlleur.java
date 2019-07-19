@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/post")
 public class PostControlleur implements PostControlleurInterface
 {
     @Autowired
     private PostService postService;
-
 
     @Autowired
     private LikeService likeService;

@@ -1,5 +1,15 @@
 package com.forumdev.demo.Repository.DAO.DAOImp;
 
+import com.forumdev.demo.Model.Dislike;
+import com.forumdev.demo.Model.Like;
+import com.forumdev.demo.Model.Post;
+import com.forumdev.demo.Repository.DAO.LikeDAO;
+import com.forumdev.demo.Repository.DAO.PostDAO;
+import com.forumdev.demo.Repository.PostRepository;
+import com.forumdev.demo.Service.SpringSecurityService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.DAO.UserDao;
@@ -17,12 +27,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public  class UserDAOImp implements UserDao
+public  class UserDAOImp implements UserDao , UserDetailsService
 {
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LikeDAO likeDAO;
+    @Autowired
+    private PostRepository postRepository;
 
 
 
@@ -229,6 +244,49 @@ public  class UserDAOImp implements UserDao
         return user1;
     }
 
+    @Override
+    public List<Like> historiqueLikes(User user) {
+
+        List<Like> likes=userRepository.getLikes(user.getId_u());
+        for (int i=0;i<likes.size();i++)
+        {
+            likes.get(i).getUsers().clear();
+            likes.get(i).setLikes(null);
+            likes.get(i).getPost().setLikes(null);
+            likes.get(i).getPost().setDislikes(null);
+            likes.get(i).getPost().getImages().clear();
+            likes.get(i).getPost().getUser().setPwd(null);
+            likes.get(i).getPost().getUser().getComments().clear();
+            likes.get(i).getPost().getUser().getDislikes().clear();
+            likes.get(i).getPost().getUser().getPosts().clear();
+            likes.get(i).getPost().getUser().getLikes().clear();
+            likes.get(i).getPost().getUser().setType(null);
+
+        }
+        return likes;
+    }
+    @Override
+    public List<Dislike> historiqueDislike(User user) {
+
+        List<Dislike> dislikes=userRepository.getDislikes(user.getId_u());
+        for (int i=0;i<dislikes.size();i++)
+        {
+            dislikes.get(i).getUsers().clear();
+            dislikes.get(i).setDislikes(null);
+            dislikes.get(i).getPost().setLikes(null);
+            dislikes.get(i).getPost().setDislikes(null);
+            dislikes.get(i).getPost().getImages().clear();
+            dislikes.get(i).getPost().getUser().setPwd(null);
+            dislikes.get(i).getPost().getUser().getComments().clear();
+            dislikes.get(i).getPost().getUser().getDislikes().clear();
+            dislikes.get(i).getPost().getUser().getPosts().clear();
+            dislikes.get(i).getPost().getUser().getLikes().clear();
+            dislikes.get(i).getPost().getUser().setType(null);
+
+        }
+        return dislikes;
+    }
+
     private boolean isPwdValid(String password)
     {
         boolean valid=true;
@@ -252,4 +310,27 @@ public  class UserDAOImp implements UserDao
         return valid;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        User user=userRepository.getUserByEmail(s);
+        List<Post> posts=userRepository.getPosts(user.getId_u());
+        Post post=new Post();
+        int i=0;
+        while ( i<posts.size())
+        {
+            post=postRepository.findById(posts.get(i).getId_p()).get();
+            if (post==null)
+            {
+                i++;
+            }
+            else {
+                break;
+            }
+
+        }
+        User user1=postRepository.getUser(post.getUser().getId_u());
+        SpringSecurityService springSecurityService=new SpringSecurityService(user1);
+        return springSecurityService;
+
+    }
 }
