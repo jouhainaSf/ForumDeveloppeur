@@ -2,12 +2,9 @@ package com.forumdev.demo.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 @Entity
@@ -127,13 +124,5 @@ public class User
 
     public void setDislikes(List<Dislike> dislikes) {
         this.dislikes = dislikes;
-    }
-    public List<String> getTypeList()
-    {
-        if (type.length()>0)
-        {
-            return Arrays.asList(this.type.split(","));
-        }
-        return new ArrayList<>();
     }
 }

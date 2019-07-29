@@ -29,9 +29,10 @@ public interface PostRepository extends JpaRepository<Post,Integer>
     String getTitle(@Param("id_p") Integer integer );
     @Query("select p.categorie from Post p where p.id_p=:id_p")
     Categorie getCategorie(@Param("id_p") Integer integer );
-    @Query("select p.user from Post p where p.id_p=:id_p")
-    User getUser(@Param("id_p") Integer integer );
+    @Query("select p.user from Post p where p.user=:user ")
+    User getUser(@Param("user") User user  );
     @Query("select p.rate from Post p where p.id_p=:id_p")
     Integer getRate(@Param("id_p") Integer integer );
+
 
 }

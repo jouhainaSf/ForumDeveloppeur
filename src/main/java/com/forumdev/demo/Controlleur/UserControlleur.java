@@ -1,19 +1,16 @@
 package com.forumdev.demo.Controlleur;
 
 import com.forumdev.demo.Controlleur.ControlleurInterface.UserControlleurInterface;
-import com.forumdev.demo.Model.Comment;
-import com.forumdev.demo.Model.Dislike;
-import com.forumdev.demo.Model.Like;
-import com.forumdev.demo.Model.User;
-import com.forumdev.demo.Repository.DAO.DAOImp.UserDAOImp;
+import com.forumdev.demo.Model.*;
 import com.forumdev.demo.Service.CommentService;
 import com.forumdev.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
+@CrossOrigin(origins = "*" )
 public class UserControlleur implements UserControlleurInterface
 {
     @Autowired
@@ -22,13 +19,8 @@ public class UserControlleur implements UserControlleurInterface
     @Autowired
     private CommentService commentService;
 
-    @Autowired
-    private UserDAOImp userDAOImp;
-
-
-
     @Override
-    @PostMapping(path = "/SignIn",  consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/SignIn")
     @ResponseBody
     public User logIn(@RequestBody User user)
     {
@@ -36,28 +28,16 @@ public class UserControlleur implements UserControlleurInterface
     }
 
     @Override
-    @RequestMapping("/users")
+    @CrossOrigin
+    @RequestMapping(path = "/users",produces = "application/json")
     public List<User> allUsers()
     {
         return userService.findAll();
     }
 
-
-    @RequestMapping("/typelist")
-    public List<String> typeList()
-    {
-        return userService.findAll().get(0).getTypeList();
-    }
-
-    @RequestMapping("/userdet")
-    @ResponseBody
-    public UserDetails userDetails(@RequestBody String s)
-    {
-        return userDAOImp.loadUserByUsername(s);
-    }
-
     @Override
-    @PostMapping(path = "/SignUp" , consumes = "application/json", produces = "application/json")
+    @CrossOrigin
+    @PostMapping(path = "/SignUp" )
     public User addUser( @RequestBody User user)
     {
         return userService.SignUp(user);
@@ -91,12 +71,16 @@ public class UserControlleur implements UserControlleurInterface
     public List<Like> HistoriqueLikes(@RequestBody User user) {
         return userService.historiqueLikes(user);
     }
+
     @Override
     @PostMapping(path = "/historiqueDislikes", consumes = "application/json",produces = "application/json")
     @ResponseBody
     public List<Dislike> HistoriqueDislikes(@RequestBody User user) {
         return userService.historiqueDislikes(user);
     }
+
+
+
 
 
 }

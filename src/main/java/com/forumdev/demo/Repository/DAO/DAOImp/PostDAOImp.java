@@ -80,27 +80,17 @@ public class PostDAOImp implements PostDAO
                     imageDAOImp.uploadImage(post.getImages().get(i));
                 }
             }
-
-
-             if(post.getDislikes().getDislikes()!=0 || post.getLikes().getLikes()!=0)
-             {
-                 Integer rate = post.getLikes().getLikes() * 100 / (post.getLikes().getLikes() + post.getDislikes().getDislikes());
-                 post.setRate(rate);
-
-             }else
-             {
-                 post.setRate(post1.getRate());
-             }
-
              post.setDateCreation(post1.getDateCreation());
              post.setTitle(post1.getTitle());
              post.setUser(post1.getUser());
              post.setCategorie(post1.getCategorie());
              post.setUser(post1.getUser());
+             post.setLikes(post1.getLikes());
+             post.setDislikes(post1.getDislikes());
+             post.setRate(post1.getRate());
+             post.setImages(post1.getImages());
                 return ResponseEntity.ok(getOne(postRepository.saveAndFlush(post).getId_p()));
             }
-
-
         }
 
 

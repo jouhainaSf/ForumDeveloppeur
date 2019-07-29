@@ -5,7 +5,6 @@ import com.forumdev.demo.Controlleur.ControlleurInterface.PostControlleurInterfa
 import com.forumdev.demo.Model.*;
 import com.forumdev.demo.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +45,7 @@ public class PostControlleur implements PostControlleurInterface
     @ResponseBody
     public Post modifyPost(@RequestBody Post post)
     {
+
         return postService.updatePost(post);
     }
 

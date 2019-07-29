@@ -4,7 +4,7 @@ package com.forumdev.demo.Service.ServiceInterface;
 import com.forumdev.demo.Model.Dislike;
 import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.User;
-import org.springframework.http.ResponseEntity;
+
 
 import java.util.List;
 

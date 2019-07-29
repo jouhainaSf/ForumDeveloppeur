@@ -18,6 +18,7 @@ public class Dislike
     private Integer dislikes;
     @OneToOne
     @JoinColumn(name = "post", referencedColumnName = "id_p")
+    @JsonIgnore
     private Post post;
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -25,6 +26,7 @@ public class Dislike
             joinColumns = { @JoinColumn(name = "id_dis") },
             inverseJoinColumns = { @JoinColumn(name = "id_u") }
     )
+    @JsonIgnore
     private List<User> users;
 
     public Dislike() {

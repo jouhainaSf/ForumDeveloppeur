@@ -2,33 +2,27 @@ package com.forumdev.demo.Repository.DAO.DAOImp;
 
 import com.forumdev.demo.Model.Dislike;
 import com.forumdev.demo.Model.Like;
-import com.forumdev.demo.Model.Post;
-import com.forumdev.demo.Repository.DAO.LikeDAO;
-import com.forumdev.demo.Repository.DAO.PostDAO;
-import com.forumdev.demo.Repository.PostRepository;
-import com.forumdev.demo.Service.SpringSecurityService;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import com.forumdev.demo.Model.User;
+import com.forumdev.demo.Repository.DAO.LikeDAO;
 import com.forumdev.demo.Repository.DAO.UserDao;
+import com.forumdev.demo.Repository.PostRepository;
 import com.forumdev.demo.Repository.UserRepository;
 import com.forumdev.demo.Service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public  class UserDAOImp implements UserDao , UserDetailsService
-{
+public class UserDAOImp implements UserDao {
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
@@ -40,17 +34,16 @@ public  class UserDAOImp implements UserDao , UserDetailsService
     private PostRepository postRepository;
 
 
-
     @Override
     public List<User> findAll() {
 
 
-        List<User> users= userRepository.findAll();
-        User user=new User();
-        for (int i=0; i<users.size();i++)
-        {
-            user=afficherUser(users.remove(i));
-           users.add(i,user); ;
+        List<User> users = userRepository.findAll();
+        User user = new User();
+        for (int i = 0; i < users.size(); i++) {
+            user = afficherUser(users.remove(i));
+            users.add(i, user);
+            ;
         }
         return users;
     }
@@ -58,64 +51,46 @@ public  class UserDAOImp implements UserDao , UserDetailsService
     @Override
     public ResponseEntity<User> signUp(User user) {
 
-        if(user.getFirstName()==null )
-        {
+        if (user.getFirstName() == null) {
             logger.error("le champs FirstName est obligatoire prière de le remplir !");
             return ResponseEntity.notFound().build();
-        } else if (user.getLastName()==null)
-        {
+        } else if (user.getLastName() == null) {
             logger.error("le champs LastName  est obligatoire prière de le remplir !");
             return ResponseEntity.notFound().build();
-        }  else if (user.getEmail()==null)
-        {
+        } else if (user.getEmail() == null) {
             logger.error("le champs email est obligatoire prière de le remplir !");
             return ResponseEntity.notFound().build();
-        } else if (user.getEmail().indexOf("@gmail.com")==-1 )
-        {
+        } else if (user.getEmail().indexOf("@gmail.com") == -1) {
             logger.error("your email must contains @gmail.com !");
             return ResponseEntity.notFound().build();
-        }else if ( !(user.getEmail().endsWith("@gmail.com")) )
-        {
+        } else if (!(user.getEmail().endsWith("@gmail.com"))) {
             logger.error("your email must ends with @gmail.com !");
             return ResponseEntity.notFound().build();
-        }else if ( user.getEmail().length() < 11 )
-        {
+        } else if (user.getEmail().length() < 11) {
             logger.error("your email is invalid !");
             return ResponseEntity.notFound().build();
-        } else if (user.getPwd()==null)
-        {
+        } else if (user.getPwd() == null) {
             logger.error("le champs password est obligatoire prière de le remplir !");
             return ResponseEntity.notFound().build();
-        }
-        else if (user.getPwd().length()<8   )
-        {
+        } else if (user.getPwd().length() < 8) {
             logger.error("Mot de passe too short !");
             return ResponseEntity.notFound().build();
-        } else if (user.getPwd().length()>16   )
-        {
+        } else if (user.getPwd().length() > 16) {
             logger.error("Mot de passe too long !");
             return ResponseEntity.notFound().build();
-        } else if (this.isPwdValid(user.getPwd())==false)
-        {
+        } else if (this.isPwdValid(user.getPwd()) == false) {
             logger.error("Mot de passe invalid !");
             return ResponseEntity.notFound().build();
-        }
-
-        else if (user.getPwd().indexOf(user.getFirstName())!=-1)
-        {
+        } else if (user.getPwd().indexOf(user.getFirstName()) != -1) {
             logger.error("Mot de passe ne peut pas contenir votre nom !");
             return ResponseEntity.notFound().build();
-        } else if (user.getPwd().indexOf(user.getLastName())!=-1)
-        {
+        } else if (user.getPwd().indexOf(user.getLastName()) != -1) {
             logger.error("Mot de passe ne peut pas contenir votre prenom !");
             return ResponseEntity.notFound().build();
-        } else if (dejaInscrit(user.getEmail())!=null)
-        {
+        } else if (dejaInscrit(user.getEmail()) != null) {
             logger.error("Cet utilisateur existe deja !");
             return ResponseEntity.notFound().build();
-        }
-        else
-        {
+        } else {
             String pwd = BCrypt.hashpw(user.getPwd(), BCrypt.gensalt(12));
             user.setPwd(pwd);
             user.setType("public");
@@ -124,108 +99,81 @@ public  class UserDAOImp implements UserDao , UserDetailsService
     }
 
     @Override
-    public ResponseEntity<String> desabonne(Integer integer)
-    {
+    public ResponseEntity<String> desabonne(Integer integer) {
         Optional<User> user = userRepository.findById(integer);
-        if(user==null)
-        {
+        if (user == null) {
             logger.error("Votre compte n'a pas pu etre efface  !");
             return ResponseEntity.notFound().build();
-        } else
-        {
+        } else {
             userRepository.deleteById(integer);
-           return ResponseEntity.ok("Votre compte a ete bien efface ! ");
+            return ResponseEntity.ok("Votre compte a ete bien efface ! ");
         }
-
 
 
     }
 
     @Override
-    public User getUser(Integer integer)
-    {
+    public User getUser(Integer integer) {
         return userRepository.findById(integer).get();
     }
 
     @Override
-    public ResponseEntity<User> updateUser(User user)
-    {
-        User user1=userRepository.findById(user.getId_u()).get();
-        if(user.getFirstName()==null )
-        {
+    public ResponseEntity<User> updateUser(User user) {
+        User user1 = userRepository.findById(user.getId_u()).get();
+        if (user.getFirstName() == null) {
             logger.error("le champs FirstName est obligatoire prière de le remplir !");
             return ResponseEntity.notFound().build();
-        } else if (user.getLastName()==null)
-        {
+        } else if (user.getLastName() == null) {
             logger.error("le champs LastName  est obligatoire prière de le remplir !");
             return ResponseEntity.notFound().build();
-        }  else if (user.getEmail()==null)
-        {
+        } else if (user.getEmail() == null) {
             logger.error("le champs email est obligatoire prière de le remplir !");
             return ResponseEntity.notFound().build();
-        } else if (user1.getEmail().equals(user.getEmail())==false)
-        {
+        } else if (user1.getEmail().equals(user.getEmail()) == false) {
             logger.error("vous ne pouvez pas changer votre email");
             return ResponseEntity.notFound().build();
-        }else if (user.getPwd()==null)
-        {
+        } else if (user.getPwd() == null) {
             logger.error("le champs password est obligatoire prière de le remplir !");
             return ResponseEntity.notFound().build();
-        }
-        else if (user.getPwd().length()<8   )
-        {
+        } else if (user.getPwd().length() < 8) {
             logger.error("Mot de passe too short !");
             return ResponseEntity.notFound().build();
-        } else if (user.getPwd().length()>16   )
-        {
+        } else if (user.getPwd().length() > 16) {
             logger.error("Mot de passe too long !");
             return ResponseEntity.notFound().build();
-        } else if (this.isPwdValid(user.getPwd())==false)
-        {
+        } else if (this.isPwdValid(user.getPwd()) == false) {
             logger.error("Mot de passe invalid !");
             return ResponseEntity.notFound().build();
-        }
-
-        else if (user.getPwd().indexOf(user.getFirstName())!=-1)
-        {
+        } else if (user.getPwd().indexOf(user.getFirstName()) != -1) {
             logger.error("Mot de passe ne peut pas contenir votre nom !");
             return ResponseEntity.notFound().build();
-        } else if (user.getPwd().indexOf(user.getLastName())!=-1)
-        {
+        } else if (user.getPwd().indexOf(user.getLastName()) != -1) {
             logger.error("Mot de passe ne peut pas contenir votre prenom !");
             return ResponseEntity.notFound().build();
-        }
-        else
-        {
+        } else {
             return ResponseEntity.ok(userRepository.saveAndFlush(user));
-        }    }
+        }
+    }
 
     @Override
-    public ResponseEntity<User> logIn(String email, String pwd)
-    {
-        if (email==null)
-        {
+    public ResponseEntity<User> logIn(String email, String pwd) {
+        if (email == null) {
             logger.error("veuillez saisir votre email !");
             return ResponseEntity.notFound().build();
-        }else if (pwd==null)
-        {
+        } else if (pwd == null) {
             logger.error("veuillez saisir votre mot de passe !");
             return ResponseEntity.notFound().build();
-        }else if (userRepository.getUserByEmail(email)==null)
-        {
+        } else if (userRepository.getUserByEmail(email) == null) {
             logger.error("email incorrect !");
             return ResponseEntity.notFound().build();
-        }
-        else
-        {
-            String pwd1=userRepository.getUserByEmail(email).getPwd();
+        } else {
+            String pwd1 = userRepository.getUserByEmail(email).getPwd();
             boolean matched = BCrypt.checkpw(pwd, pwd1);
-            if (matched==false)
-            {
+            if (matched == false) {
                 logger.error("pwd incorrect !");
                 return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.ok(afficherUser(userRepository.getUserByEmailAndPwd(email,pwd1)));
+            return ResponseEntity.ok(afficherUser(userRepository.getUserByEmailAndPwd(email, pwd1)));
         }
     }
 
@@ -236,7 +184,7 @@ public  class UserDAOImp implements UserDao , UserDetailsService
 
     @Override
     public User afficherUser(User user) {
-        User user1=new User();
+        User user1 = new User();
         user1.setFirstName(user.getFirstName());
         user1.setLastName(user.getLastName());
         user1.setEmail(user.getEmail());
@@ -247,9 +195,8 @@ public  class UserDAOImp implements UserDao , UserDetailsService
     @Override
     public List<Like> historiqueLikes(User user) {
 
-        List<Like> likes=userRepository.getLikes(user.getId_u());
-        for (int i=0;i<likes.size();i++)
-        {
+        List<Like> likes = userRepository.getLikes(user.getId_u());
+        for (int i = 0; i < likes.size(); i++) {
             likes.get(i).getUsers().clear();
             likes.get(i).setLikes(null);
             likes.get(i).getPost().setLikes(null);
@@ -265,12 +212,12 @@ public  class UserDAOImp implements UserDao , UserDetailsService
         }
         return likes;
     }
+
     @Override
     public List<Dislike> historiqueDislike(User user) {
 
-        List<Dislike> dislikes=userRepository.getDislikes(user.getId_u());
-        for (int i=0;i<dislikes.size();i++)
-        {
+        List<Dislike> dislikes = userRepository.getDislikes(user.getId_u());
+        for (int i = 0; i < dislikes.size(); i++) {
             dislikes.get(i).getUsers().clear();
             dislikes.get(i).setDislikes(null);
             dislikes.get(i).getPost().setLikes(null);
@@ -287,50 +234,23 @@ public  class UserDAOImp implements UserDao , UserDetailsService
         return dislikes;
     }
 
-    private boolean isPwdValid(String password)
-    {
-        boolean valid=true;
-        for (int i = 0; i < password.length(); i++)
-        {
+    private boolean isPwdValid(String password) {
+        boolean valid = true;
+        for (int i = 0; i < password.length(); i++) {
             char c = password.charAt(i);
             if ('a' <= c && c <= 'z')
-            if (       ('a' <= c && c <= 'z') // Checks if it is a lower case letter
-                    || ('A' <= c && c <= 'Z') //Checks if it is an upper case letter
-                    || ('0' <= c && c <= '9') //Checks to see if it is a digit
-            )
-            {
-                valid = true;
-            }
-            else
-            {
-                valid = false;
-                break;
-            }
+                if (('a' <= c && c <= 'z') // Checks if it is a lower case letter
+                        || ('A' <= c && c <= 'Z') //Checks if it is an upper case letter
+                        || ('0' <= c && c <= '9') //Checks to see if it is a digit
+                ) {
+                    valid = true;
+                } else {
+                    valid = false;
+                    break;
+                }
         }
         return valid;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user=userRepository.getUserByEmail(s);
-        List<Post> posts=userRepository.getPosts(user.getId_u());
-        Post post=new Post();
-        int i=0;
-        while ( i<posts.size())
-        {
-            post=postRepository.findById(posts.get(i).getId_p()).get();
-            if (post==null)
-            {
-                i++;
-            }
-            else {
-                break;
-            }
-
-        }
-        User user1=postRepository.getUser(post.getUser().getId_u());
-        SpringSecurityService springSecurityService=new SpringSecurityService(user1);
-        return springSecurityService;
-
-    }
 }
+
