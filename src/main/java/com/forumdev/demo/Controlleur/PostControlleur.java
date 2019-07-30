@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/post")
 public class PostControlleur implements PostControlleurInterface
@@ -76,6 +77,13 @@ public class PostControlleur implements PostControlleurInterface
     public Integer dislikePost(@RequestBody Dislike dislike)
     {
         return dislikeService.Disliker(dislike);
+    }
+
+    @CrossOrigin
+    @RequestMapping(path = "/posts" , produces="application/json")
+    public List<Post> allPosts()
+    {
+        return postService.getAllPosts();
     }
 
 }

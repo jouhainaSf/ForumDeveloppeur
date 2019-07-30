@@ -43,7 +43,7 @@ public class UserDAOImp implements UserDao {
         for (int i = 0; i < users.size(); i++) {
             user = afficherUser(users.remove(i));
             users.add(i, user);
-            ;
+
         }
         return users;
     }

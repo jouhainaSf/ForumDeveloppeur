@@ -15,4 +15,5 @@ public interface PostServiceInterface
     Post updatePost(Post post);
     Post addPost(Post post);
     void deletePost(Post post);
+    List<Post> getAllPosts();
 }

@@ -4,12 +4,18 @@ import com.forumdev.demo.Model.*;
 import com.forumdev.demo.Repository.DAO.*;
 import com.forumdev.demo.Repository.PostRepository;
 import com.forumdev.demo.Service.PostService;
+import org.apache.tomcat.jni.Local;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import org.slf4j.Logger;
 
 @Repository
@@ -165,6 +171,18 @@ public class PostDAOImp implements PostDAO
         return post;
     }
 
+    @Override
+    public List<Post> getAllPosts() {
+        List<Post> posts=postRepository.findAll();
+        Post post = new Post();
+        for (int i = 0; i < posts.size(); i++) {
+            post = afficherPost(posts.remove(i).getId_p());
+            posts.add(i, post);
+
+        }
+        return posts ;
+    }
+
     public Post afficherPost(Integer id)
     {
         Post post= postRepository.findById(id).get();
@@ -175,7 +193,7 @@ public class PostDAOImp implements PostDAO
         post.setUser(user);
         post.setDislikes(null);
         post.setComments(null);
-        post.setDescription(null);
+        post.setDescription(post.getDescription());
         post.setLikes(null);
         return post;
     }

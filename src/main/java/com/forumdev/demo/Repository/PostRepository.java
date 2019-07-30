@@ -14,6 +14,9 @@ public interface PostRepository extends JpaRepository<Post,Integer>
 {
 
     @Override
+    List<Post> findAll();
+
+    @Override
     Optional<Post> findById(Integer integer);
 
     @Override

@@ -15,4 +15,5 @@ public interface PostDAO
     ResponseEntity<Post> addPost(Post post);
     void deletePost(Post post);
     Post getOne(Integer id);
+    List<Post> getAllPosts();
 }

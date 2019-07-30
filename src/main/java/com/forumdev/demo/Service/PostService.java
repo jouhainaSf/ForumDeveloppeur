@@ -44,4 +44,9 @@ public class PostService implements PostServiceInterface
     {
         postDAO.deletePost(post);
     }
+
+    @Override
+    public List<Post> getAllPosts() {
+        return postDAO.getAllPosts();
+    }
 }
