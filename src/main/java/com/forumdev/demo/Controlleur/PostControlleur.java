@@ -5,6 +5,7 @@ import com.forumdev.demo.Controlleur.ControlleurInterface.PostControlleurInterfa
 import com.forumdev.demo.Model.*;
 import com.forumdev.demo.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class PostControlleur implements PostControlleurInterface
 
     @Autowired
     private DislikeService dislikeService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Override
     @PostMapping(path = "/Poster" ,produces = "application/json")
@@ -80,10 +84,24 @@ public class PostControlleur implements PostControlleurInterface
     }
 
     @CrossOrigin
-    @RequestMapping(path = "/posts" , produces="application/json")
+    @RequestMapping(path = "/posts" , produces="application/json" )
     public List<Post> allPosts()
     {
         return postService.getAllPosts();
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/nbComment" , produces="application/json")
+    public Integer nbComments(@RequestBody Post post)
+    {
+        return commentService.nbComment(post);
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/getComments" )
+    public List<Comment> getComments( @RequestBody  Post post)
+    {
+        return commentService.getComments(post);
     }
 
 }

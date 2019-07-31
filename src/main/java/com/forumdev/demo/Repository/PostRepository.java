@@ -37,5 +37,4 @@ public interface PostRepository extends JpaRepository<Post,Integer>
     @Query("select p.rate from Post p where p.id_p=:id_p")
     Integer getRate(@Param("id_p") Integer integer );
 
-
 }

@@ -21,4 +21,5 @@ public interface CommentRepository extends JpaRepository<Comment,Integer>
 
     @Query("select c from Comment c where c.post=:post")
     List<Comment> getCommentByPost(@Param("post") Post post);
+
 }

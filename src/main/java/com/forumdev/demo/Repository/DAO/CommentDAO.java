@@ -11,6 +11,7 @@ public interface CommentDAO
     ResponseEntity<Comment> save(Comment s);
     ResponseEntity<Comment> editComment(Comment comment);
     void deleteComment(Comment comment);
-    ResponseEntity<List<Comment>> PostComments(Post post);
+    List<Comment> PostComments(Post post);
+    Integer nbComments (Post post);
     //List<Comment> PostComments(Post post);
 }

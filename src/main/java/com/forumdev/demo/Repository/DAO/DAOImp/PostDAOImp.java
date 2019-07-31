@@ -161,7 +161,7 @@ public class PostDAOImp implements PostDAO
     {
 
         Post post= postRepository.findById(id).get();
-        post.setComments(commentDAOImp.PostComments(post).getBody());
+        post.setComments(commentDAOImp.PostComments(post));
         User user = new User();
         user.setEmail(post.getUser().getEmail());
         user.setFirstName(post.getUser().getFirstName());

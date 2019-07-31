@@ -23,11 +23,9 @@ public class Comment
     private String contenue;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_p")
-    @JsonIgnore
     private Post post;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_u")
-    @JsonView
     private User user;
 
     @CreationTimestamp

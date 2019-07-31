@@ -2,6 +2,7 @@ package com.forumdev.demo.Repository.DAO.DAOImp;
 
 import com.forumdev.demo.Model.Comment;
 import com.forumdev.demo.Model.Post;
+import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.CommentRepository;
 import com.forumdev.demo.Repository.DAO.CommentDAO;
 import com.forumdev.demo.Service.UserService;
@@ -75,26 +76,34 @@ public class CommentDAOImp implements CommentDAO
     }
 
     @Override
-    public ResponseEntity<List<Comment>> PostComments(Post post) {
+    public List<Comment> PostComments(Post post) {
 
 
         List<Comment>comments=commentRepository.getCommentByPost(post);
-        if(comments==null)
-        {
 
-             ResponseEntity.notFound().build();
-             return null;
+        for (int i = 0; i < comments.size(); i++) {
+            Comment  comment= afficherComment(comments.remove(i).getId_com());
+            comments.add(i, comment);
         }
-        else{
-            Comment comment=new Comment();
+        return comments;
+    }
 
-            for (int i=0; i<comments.size();i++)
-            {
-                comments.get(i).setUser(userDAOImp.afficherUser(comments.get(i).getUser()));
+    @Override
+    public Integer nbComments(Post post) {
+        return commentRepository.getCommentByPost(post).size();
+    }
 
-            }
-            return ResponseEntity.ok(comments);
+    public Comment afficherComment(Integer  id)
+    {
+        Comment comment=new Comment();
+        User user=new User();
+        Comment comment1=commentRepository.findById(id).get();
+        comment.setContenue(comment1.getContenue());
+        User user1=comment1.getUser();
+        user.setFirstName(user1.getFirstName());
+        user.setLastName(user1.getLastName());
+        comment.setUser(user);
+        return comment;
 
-        }
     }
 }
