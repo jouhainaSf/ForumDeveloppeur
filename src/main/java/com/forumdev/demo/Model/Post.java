@@ -32,6 +32,8 @@ public class Post
             cascade = CascadeType.ALL
     )
     private List<Image> images;
+
+
     @OneToMany(
             mappedBy = "post",
             cascade = CascadeType.ALL
@@ -143,5 +145,9 @@ public class Post
 
     public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
+    }
+
+    public void setId_p(Integer id_p) {
+        this.id_p = id_p;
     }
 }

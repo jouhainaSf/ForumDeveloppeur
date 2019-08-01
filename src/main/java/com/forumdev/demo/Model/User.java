@@ -125,4 +125,8 @@ public class User
     public void setDislikes(List<Dislike> dislikes) {
         this.dislikes = dislikes;
     }
+
+    public void setId_u(Integer id_u) {
+        this.id_u = id_u;
+    }
 }

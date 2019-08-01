@@ -12,4 +12,5 @@ public interface CommentServiceInterface
     void deleteComment(Comment comment);
     Integer nbComment(Post post);
     List<Comment> getComments(Post post);
+    List<Comment> getAllComment();
 }

@@ -60,6 +60,7 @@ public class UserControlleur implements UserControlleurInterface
 
     @Override
     @PostMapping(path = "/comment", consumes = "application/json", produces = "application/json")
+    @ResponseBody
     public void Comment(@RequestBody  Comment comment )
     {
         commentService.save(comment);

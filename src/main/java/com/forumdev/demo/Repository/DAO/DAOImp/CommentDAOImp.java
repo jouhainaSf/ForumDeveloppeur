@@ -93,13 +93,28 @@ public class CommentDAOImp implements CommentDAO
         return commentRepository.getCommentByPost(post).size();
     }
 
+    @Override
+    public List<Comment> getAllComment() {
+
+        List<Comment>comments=commentRepository.findAll();
+
+        for (int i = 0; i < comments.size(); i++) {
+            Comment  comment= afficherComment(comments.remove(i).getId_com());
+            comments.add(i, comment);
+        }
+        return comments;
+    }
+
     public Comment afficherComment(Integer  id)
     {
         Comment comment=new Comment();
         User user=new User();
         Comment comment1=commentRepository.findById(id).get();
         comment.setContenue(comment1.getContenue());
+        comment.setId_com(comment1.getId_com());
+        comment.setDateCreation(comment1.getDateCreation());
         User user1=comment1.getUser();
+        user.setId_u(user1.getId_u());
         user.setFirstName(user1.getFirstName());
         user.setLastName(user1.getLastName());
         comment.setUser(user);

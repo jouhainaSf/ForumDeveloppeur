@@ -97,11 +97,7 @@ public class PostControlleur implements PostControlleurInterface
         return commentService.nbComment(post);
     }
 
-    @CrossOrigin
-    @PostMapping(path = "/getComments" )
-    public List<Comment> getComments( @RequestBody  Post post)
-    {
-        return commentService.getComments(post);
-    }
+
+
 
 }

@@ -19,6 +19,11 @@ public class Image
     private String name;
     private String path;
     private String description;
+
+    public void setId_im(Integer id_im) {
+        this.id_im = id_im;
+    }
+
     @ManyToOne
     @JoinColumn(name = "id_p")
     @JsonIgnore

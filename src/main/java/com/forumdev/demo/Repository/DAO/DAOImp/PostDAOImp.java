@@ -191,10 +191,6 @@ public class PostDAOImp implements PostDAO
         user.setFirstName(post.getUser().getFirstName());
         user.setLastName(post.getUser().getLastName());
         post.setUser(user);
-        post.setDislikes(null);
-        post.setComments(null);
-        post.setDescription(post.getDescription());
-        post.setLikes(null);
         return post;
     }
 

@@ -13,5 +13,5 @@ public interface CommentDAO
     void deleteComment(Comment comment);
     List<Comment> PostComments(Post post);
     Integer nbComments (Post post);
-    //List<Comment> PostComments(Post post);
+    List<Comment> getAllComment();
 }

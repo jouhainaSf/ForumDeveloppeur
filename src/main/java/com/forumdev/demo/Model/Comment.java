@@ -72,5 +72,12 @@ public class Comment
         return dateCreation;
     }
 
+    public void setId_com(Integer id_com) {
+        this.id_com = id_com;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
+    }
 }
 

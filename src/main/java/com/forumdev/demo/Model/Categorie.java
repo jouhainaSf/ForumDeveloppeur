@@ -23,6 +23,9 @@ public class Categorie
     @JsonIgnore
     private List<Post> posts;
 
+    public void setId_cat(Integer id_cat) {
+        this.id_cat = id_cat;
+    }
 
     public Categorie() {
     }

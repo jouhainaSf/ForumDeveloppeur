@@ -44,4 +44,9 @@ public class CommentService implements CommentServiceInterface
         return commentDAO.PostComments(post);
     }
 
+    @Override
+    public List<Comment> getAllComment() {
+        return commentDAO.getAllComment();
+    }
+
 }

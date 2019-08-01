@@ -18,7 +18,7 @@ public class Like
     private Integer likes;
     @OneToOne
     @JoinColumn(name = "post", referencedColumnName = "id_p")
-
+    @JsonIgnore
     private Post post;
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -58,5 +58,8 @@ public class Like
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+    public void setId_lik(Integer id_lik) {
+        this.id_lik = id_lik;
     }
 }
