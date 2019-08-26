@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface DislikeDAO
 {
-    ResponseEntity<Integer> Disliker (Dislike dislike);
+    ResponseEntity<Post> Disliker (Post post ,String user);
     Dislike getDislike(Integer integer);
     Dislike findByPost(Post post);
     Dislike addDislike(Post post);

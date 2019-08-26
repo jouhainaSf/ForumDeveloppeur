@@ -18,7 +18,6 @@ public class Like
     private Integer likes;
     @OneToOne
     @JoinColumn(name = "post", referencedColumnName = "id_p")
-    @JsonIgnore
     private Post post;
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -26,6 +25,7 @@ public class Like
             joinColumns = { @JoinColumn(name = "id_lik") },
             inverseJoinColumns = { @JoinColumn(name = "id_u") }
     )
+    @JsonIgnore
     private List<User> users;
 
     public Like() {

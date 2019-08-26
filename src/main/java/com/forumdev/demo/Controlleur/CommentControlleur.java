@@ -16,8 +16,8 @@ public class CommentControlleur {
     @Autowired
     private CommentService commentService;
 
-    @RequestMapping(path = "/getComments", produces = "application/json")
-    @ResponseBody
+    @PostMapping(path = "/getComments", produces = "application/json")
+    @CrossOrigin
     public List<Comment> getComments(@RequestBody Post post) {
         return commentService.getComments(post);
     }

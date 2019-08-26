@@ -18,8 +18,10 @@ public class Post
     private String description ;
     private String title ;
     @OneToOne(mappedBy = "post" )
+    @JsonIgnore
     private Like likes;
     @OneToOne(mappedBy = "post" )
+    @JsonIgnore
     private Dislike dislikes;
     @ColumnDefault("0")
     private Integer rate;
@@ -39,6 +41,7 @@ public class Post
             cascade = CascadeType.ALL
     )
 
+    @JsonIgnore
     private List<Comment> comments;
 
     @ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)

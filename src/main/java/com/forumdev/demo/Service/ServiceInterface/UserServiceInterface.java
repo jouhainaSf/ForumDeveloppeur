@@ -1,6 +1,7 @@
 package com.forumdev.demo.Service.ServiceInterface;
 
 
+import com.forumdev.demo.Model.Comment;
 import com.forumdev.demo.Model.Dislike;
 import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.User;
@@ -18,5 +19,6 @@ public interface UserServiceInterface
     User SignIn(User user);
     List<Like> historiqueLikes(User user);
     List<Dislike> historiqueDislikes(User user);
+    List<Comment> historiqueComment(User user);
 
 }

@@ -2,6 +2,7 @@ package com.forumdev.demo.Service;
 
 import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.Post;
+import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.DAO.DAOImp.LikeDAOImp;
 import com.forumdev.demo.Repository.DAO.LikeDAO;
 import com.forumdev.demo.Service.ServiceInterface.LikeServiceInterface;
@@ -27,9 +28,9 @@ public class LikeService implements LikeServiceInterface
     }
 
     @Override
-    public Integer liker(Like like)
+    public Post liker(Post post ,String user)
     {
-        return likeDAO.liker(like).getBody();
+        return likeDAO.liker(post,user).getBody();
     }
 
 

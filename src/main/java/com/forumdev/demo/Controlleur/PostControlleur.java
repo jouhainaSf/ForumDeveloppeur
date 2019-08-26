@@ -28,7 +28,7 @@ public class PostControlleur implements PostControlleurInterface
     private CommentService commentService;
 
     @Override
-    @PostMapping(path = "/Poster" ,produces = "application/json")
+    @PostMapping(path = "/Poster" ,produces = "application/json",consumes="application/json")
     @ResponseBody
     public Post Poster(@RequestBody  Post post )
     {
@@ -46,8 +46,8 @@ public class PostControlleur implements PostControlleurInterface
     }
 
     @Override
-    @PutMapping (path = "/modifyPost", consumes = "application/json", produces = "application/json")
-    @ResponseBody
+    @PostMapping (path = "/modifyPost", consumes = "application/json", produces = "application/json")
+    @CrossOrigin
     public Post modifyPost(@RequestBody Post post)
     {
 
@@ -55,7 +55,7 @@ public class PostControlleur implements PostControlleurInterface
     }
 
     @Override
-    @DeleteMapping(path = "/DeletePost" , consumes = "application/json" )
+    @PostMapping(path = "/DeletePost" , consumes = "application/json" , produces = "application/json")
     @ResponseBody
     public void deletePost(@RequestBody Post post)
     {
@@ -69,18 +69,18 @@ public class PostControlleur implements PostControlleurInterface
         return postService.getOne(post.getId_p());
     }
 
-    @PostMapping(path = "/liker", consumes = "application/json", produces = "application/json")
-    @ResponseBody
-    public Integer likePost(@RequestBody Like like)
+    @CrossOrigin
+    @PostMapping(path = "/liker/{id_u:.+}")
+    public Post likePost(@RequestBody Post post ,@PathVariable String id_u)
     {
-        return likeService.liker(like);
+        return likeService.liker(post , id_u);
     }
 
-    @PostMapping(path = "/disliker", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/disliker/{id_u:.+}", consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public Integer dislikePost(@RequestBody Dislike dislike)
+    public Post dislikePost(@RequestBody Post post ,@PathVariable String id_u)
     {
-        return dislikeService.Disliker(dislike);
+        return dislikeService.Disliker(post,id_u);
     }
 
     @CrossOrigin
@@ -95,6 +95,14 @@ public class PostControlleur implements PostControlleurInterface
     public Integer nbComments(@RequestBody Post post)
     {
         return commentService.nbComment(post);
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "/findByUser" , produces="application/json" , consumes = "application/json")
+    @ResponseBody
+    public List<Post> findByUser (@RequestBody User user)
+    {
+        return postService.findByUser(user);
     }
 
 

@@ -17,10 +17,6 @@ public class Dislike
     @ColumnDefault(value = "0")
     private Integer dislikes;
 
-    public void setId_dis(Integer id_dis) {
-        this.id_dis = id_dis;
-    }
-
     @OneToOne
     @JoinColumn(name = "post", referencedColumnName = "id_p")
     @JsonIgnore
@@ -38,10 +34,15 @@ public class Dislike
         dislikes=0;
     }
 
+    public void setId_dis(Integer id_dis) {
+        this.id_dis = id_dis;
+    }
+
     public Dislike(Integer dislikes, Post post) {
         this.dislikes = dislikes;
         this.post = post;
     }
+
 
     public Integer getDislikes() {
         return dislikes;

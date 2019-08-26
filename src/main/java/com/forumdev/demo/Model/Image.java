@@ -20,10 +20,6 @@ public class Image
     private String path;
     private String description;
 
-    public void setId_im(Integer id_im) {
-        this.id_im = id_im;
-    }
-
     @ManyToOne
     @JoinColumn(name = "id_p")
     @JsonIgnore
@@ -36,6 +32,11 @@ public class Image
         this.name = name;
         this.path = path;
         this.post = post;
+    }
+
+
+    public void setId_im(Integer id_im) {
+        this.id_im = id_im;
     }
 
     public Integer getId_im() {

@@ -34,11 +34,11 @@ public class CommentDAOImp implements CommentDAO
             logger.error("Veuillez remplir le contenue de votre commentaire");
             return ResponseEntity.notFound().build();
 
-        }else if (s.getPost()==null)
+        }else if (s.getPost().equals(null))
         {
             logger.error("Veuillez spécifier le post que vous voulez commenter !");
             return ResponseEntity.notFound().build();
-        }else if (s.getUser()==null)
+        }else if (s.getUser().equals(null))
         {
             logger.error("Veuillez spécifier l'utilisateur qui a commenté !");
             return ResponseEntity.notFound().build();

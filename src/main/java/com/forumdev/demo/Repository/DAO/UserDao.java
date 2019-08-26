@@ -25,4 +25,5 @@ public interface UserDao
     User afficherUser(User user);
     List<Like> historiqueLikes(User user);
     List<Dislike> historiqueDislike(User user);
+    List<Comment> historiqueComment(User user);
 }

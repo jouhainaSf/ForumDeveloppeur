@@ -54,19 +54,12 @@ public class LikeDAOImp implements LikeDAO
     }
 
     @Override
-    public ResponseEntity<Integer> liker(Like like) {
+    public ResponseEntity<Post> liker(Post post2 , String user1) {
 
-        if (like.getPost().getId_p().equals(null)==true)
-        {
-            logger.error("Il faut indiquer le post !");
-            return ResponseEntity.notFound().build();
-        }else if (like.getUsers().isEmpty()==true)
-        {
-            logger.error("il faut indiquer l'utilsateur qui a liké ce post");
-            return ResponseEntity.notFound().build();
-        }else
-        {
-            User user=userRepository.findById(like.getUsers().get(0).getId_u()).get();
+            Integer id_u=Integer.parseInt(user1);
+            Post post1=postRepository.findById(post2.getId_p()).get();
+            Like like=likesRepository.findById(post1.getLikes().getId_l()).get();
+            User user=userRepository.findById(id_u).get();
             Like like1=likesRepository.fingByPost(like.getPost());
             List<User> users=like1.getUsers();
             if (users.contains(user)==true)
@@ -88,9 +81,9 @@ public class LikeDAOImp implements LikeDAO
                 Integer rate = post.getLikes().getLikes() * 100 / (post.getLikes().getLikes() + post.getDislikes().getDislikes());
                 post.setRate(rate);
                 like1.setPost(post);
-                postRepository.saveAndFlush(post);
-                return ResponseEntity.ok(likesRepository.save(like1).getLikes());
+                Post post3 = postRepository.saveAndFlush(post);
+                return ResponseEntity.ok(post);
             }
         }
-    }
+
 }

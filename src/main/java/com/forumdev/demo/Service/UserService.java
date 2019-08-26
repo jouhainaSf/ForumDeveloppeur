@@ -1,5 +1,6 @@
 package com.forumdev.demo.Service;
 
+import com.forumdev.demo.Model.Comment;
 import com.forumdev.demo.Model.Dislike;
 import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.User;
@@ -36,6 +37,11 @@ public class UserService implements UserServiceInterface {
     @Override
     public List<Dislike> historiqueDislikes(User user) {
         return userDAO.historiqueDislike(user);
+    }
+
+    @Override
+    public List<Comment> historiqueComment(User user) {
+        return userDAO.historiqueComment(user);
     }
 
 

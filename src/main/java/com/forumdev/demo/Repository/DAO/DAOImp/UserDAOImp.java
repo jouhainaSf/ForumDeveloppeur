@@ -1,8 +1,10 @@
 package com.forumdev.demo.Repository.DAO.DAOImp;
 
+import com.forumdev.demo.Model.Comment;
 import com.forumdev.demo.Model.Dislike;
 import com.forumdev.demo.Model.Like;
 import com.forumdev.demo.Model.User;
+import com.forumdev.demo.Repository.CommentRepository;
 import com.forumdev.demo.Repository.DAO.LikeDAO;
 import com.forumdev.demo.Repository.DAO.UserDao;
 import com.forumdev.demo.Repository.PostRepository;
@@ -33,6 +35,8 @@ public class UserDAOImp implements UserDao {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Override
     public List<User> findAll() {
@@ -185,6 +189,7 @@ public class UserDAOImp implements UserDao {
     @Override
     public User afficherUser(User user) {
         User user1 = new User();
+        user1.setId_u(user.getId_u());
         user1.setFirstName(user.getFirstName());
         user1.setLastName(user.getLastName());
         user1.setEmail(user.getEmail());
@@ -196,20 +201,7 @@ public class UserDAOImp implements UserDao {
     public List<Like> historiqueLikes(User user) {
 
         List<Like> likes = userRepository.getLikes(user.getId_u());
-        for (int i = 0; i < likes.size(); i++) {
-            likes.get(i).getUsers().clear();
-            likes.get(i).setLikes(null);
-            likes.get(i).getPost().setLikes(null);
-            likes.get(i).getPost().setDislikes(null);
-            likes.get(i).getPost().getImages().clear();
-            likes.get(i).getPost().getUser().setPwd(null);
-            likes.get(i).getPost().getUser().getComments().clear();
-            likes.get(i).getPost().getUser().getDislikes().clear();
-            likes.get(i).getPost().getUser().getPosts().clear();
-            likes.get(i).getPost().getUser().getLikes().clear();
-            likes.get(i).getPost().getUser().setType(null);
 
-        }
         return likes;
     }
 
@@ -217,21 +209,13 @@ public class UserDAOImp implements UserDao {
     public List<Dislike> historiqueDislike(User user) {
 
         List<Dislike> dislikes = userRepository.getDislikes(user.getId_u());
-        for (int i = 0; i < dislikes.size(); i++) {
-            dislikes.get(i).getUsers().clear();
-            dislikes.get(i).setDislikes(null);
-            dislikes.get(i).getPost().setLikes(null);
-            dislikes.get(i).getPost().setDislikes(null);
-            dislikes.get(i).getPost().getImages().clear();
-            dislikes.get(i).getPost().getUser().setPwd(null);
-            dislikes.get(i).getPost().getUser().getComments().clear();
-            dislikes.get(i).getPost().getUser().getDislikes().clear();
-            dislikes.get(i).getPost().getUser().getPosts().clear();
-            dislikes.get(i).getPost().getUser().getLikes().clear();
-            dislikes.get(i).getPost().getUser().setType(null);
 
-        }
         return dislikes;
+    }
+
+    @Override
+    public List<Comment> historiqueComment(User user) {
+        return commentRepository.getCommentsByUser(user);
     }
 
     private boolean isPwdValid(String password) {

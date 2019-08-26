@@ -42,42 +42,34 @@ public class DislikeDAOImp  implements DislikeDAO
         return dislikeRepository.findById(integer).get();
     }
     @Override
-    public ResponseEntity<Integer> Disliker (Dislike dislike) {
-        if (dislike.getPost().getId_p().equals(null)==true)
+    public ResponseEntity<Post> Disliker (Post post2 ,String user1) {
+        Integer id_u=Integer.parseInt(user1);
+        Post post1=postRepository.findById(post2.getId_p()).get();
+        Dislike dislike=dislikeRepository.findById(post1.getDislikes().getId_dis()).get();
+        User user=userRepository.findById(id_u).get();
+        Dislike dislike1= dislikeRepository.fingByPost(dislike.getPost());
+        List<User> users=dislike.getUsers();
+        if (users.contains(user)==true)
         {
-            logger.error("Il faut indiquer le post !");
+            logger.error("tu as déjà aimé ce post !");
             return ResponseEntity.notFound().build();
-        }else if (dislike.getUsers().isEmpty()==true)
+        }else if (user.equals(dislike1.getPost().getUser()))
         {
-            logger.error("il faut indiquer l'utilsateur qui a disliké ce post");
+            logger.error("tu ne peux pas aimé ton propre post -_- !");
             return ResponseEntity.notFound().build();
-        }else
+        } else
         {
-            User user=userRepository.findById(dislike.getUsers().get(0).getId_u()).get();
-            Dislike dislike1=dislikeRepository.fingByPost(dislike.getPost());
             Post post=postRepository.findById(dislike.getPost().getId_p()).get();
-            List<User> users=dislike1.getUsers();
-            if (users.contains(user)==true)
-            {
-                logger.error("tu as déjà disliker ce post !");
-                return ResponseEntity.notFound().build();
-            }else if (user.equals(dislike1.getPost().getUser()))
-            {
-                logger.error("tu ne peux pas aimé ton propre post -_- !");
-                return ResponseEntity.notFound().build();
-            } else
-            {
-                users.add(user);
-                dislike1.setUsers(users);
-                user.getDislikes().add(dislike1);
-                dislike1.setDislikes(dislike1.getDislikes()+1);
-                post.setDislikes(dislike1);
-                Integer rate = post.getLikes().getLikes() * 100 / (post.getLikes().getLikes() + post.getDislikes().getDislikes());
-                post.setRate(rate);
-                dislike1.setPost(post);
-                postRepository.saveAndFlush(post);
-                return ResponseEntity.ok(dislikeRepository.save(dislike1).getDislikes());
-            }
+            users.add(user);
+            dislike1.setUsers(users);
+            user.getDislikes().add(dislike1);
+            dislike1.setDislikes(dislike1.getDislikes()+1);
+            post.setDislikes(dislike1);
+            Integer rate = post.getLikes().getLikes() * 100 / (post.getLikes().getLikes() + post.getDislikes().getDislikes());
+            post.setRate(rate);
+            dislike1.setPost(post);
+            Post post3 = postRepository.saveAndFlush(post);
+            return ResponseEntity.ok(post);
         }
     }
 

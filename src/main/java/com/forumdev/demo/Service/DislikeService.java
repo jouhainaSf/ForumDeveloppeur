@@ -25,8 +25,8 @@ public class DislikeService implements DislikeServiceInterface
     }
 
     @Override
-    public Integer Disliker(Dislike dislike) {
-        return dislikeDAO.Disliker(dislike).getBody();
+    public Post Disliker(Post post ,String user) {
+        return dislikeDAO.Disliker(post,user).getBody();
     }
 
 

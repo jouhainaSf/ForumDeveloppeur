@@ -23,10 +23,13 @@ public interface PostRepository extends JpaRepository<Post,Integer>
     Post saveAndFlush(Post s);
 
     @Override
-    void delete(Post post);
+    void deleteById(Integer integer);
 
     @Query("select p from Post p where p.categorie=:categorie")
     List<Post> findByCategorie(@Param("categorie") Categorie categorie );
+
+    @Query("select p from Post p where p.user=:user")
+    List<Post> findByUser(@Param("user") User user );
 
     @Query("select p.title from Post p where p.id_p=:id_p")
     String getTitle(@Param("id_p") Integer integer );

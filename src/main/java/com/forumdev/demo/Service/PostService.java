@@ -2,6 +2,7 @@ package com.forumdev.demo.Service;
 
 import com.forumdev.demo.Model.Categorie;
 import com.forumdev.demo.Model.Post;
+import com.forumdev.demo.Model.User;
 import com.forumdev.demo.Repository.CategorieRepository;
 import com.forumdev.demo.Repository.DAO.DAOImp.PostDAOImp;
 import com.forumdev.demo.Repository.DAO.PostDAO;
@@ -48,5 +49,10 @@ public class PostService implements PostServiceInterface
     @Override
     public List<Post> getAllPosts() {
         return postDAO.getAllPosts();
+    }
+
+    @Override
+    public List<Post> findByUser(User user) {
+        return postDAO.findByUser(user);
     }
 }

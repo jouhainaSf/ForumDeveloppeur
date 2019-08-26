@@ -66,12 +66,17 @@ public class UserControlleur implements UserControlleurInterface
         commentService.save(comment);
     }
 
+
     @Override
     @PostMapping(path = "/historiqueLikes", consumes = "application/json",produces = "application/json")
     @ResponseBody
     public List<Like> HistoriqueLikes(@RequestBody User user) {
         return userService.historiqueLikes(user);
     }
+
+    @PostMapping(path ="/nbLikes" , consumes = "application/json" , produces = "application/json")
+    @ResponseBody
+    public Integer nbLikes(@RequestBody User user){return userService.historiqueLikes(user).size();}
 
     @Override
     @PostMapping(path = "/historiqueDislikes", consumes = "application/json",produces = "application/json")
@@ -80,6 +85,29 @@ public class UserControlleur implements UserControlleurInterface
         return userService.historiqueDislikes(user);
     }
 
+    @PostMapping(path = "/nbDislikes" , consumes = "application/json" , produces = "application/json")
+    @ResponseBody
+    public  Integer nbDislikes(@RequestBody User user){return userService.historiqueDislikes(user).size();}
+
+    @PostMapping(path = "/getUser" , consumes = "application/json",produces = "application/json")
+    @ResponseBody
+    public User afficherUser(@RequestBody User user)
+    {
+        return userService.getByID(user.getId_u());
+    }
+
+    @PostMapping(path = "/historiqueComment" , consumes = "application/json" , produces = "application/json")
+    @ResponseBody
+    public  List<Comment> historiqueComment(@RequestBody User user){return userService.historiqueComment(user);}
+
+
+    @PostMapping(path = "/nbComments" , consumes = "application/json" , produces = "application/json")
+    @ResponseBody
+    public Integer nbComments(@RequestBody User user){return userService.historiqueComment(user).size();}
+
+    @PostMapping(path = "/nbPosts" , consumes = "application/json" , produces = "application/json")
+    @ResponseBody
+    public  Integer nbPosts(@RequestBody User user){return userService.getByID(user.getId_u()).getPosts().size();}
 
 
 
